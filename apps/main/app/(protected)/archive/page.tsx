@@ -1,6 +1,15 @@
+import { auth } from "@/lib/auth";
+import { authClient } from "@/lib/auth-client";
 import { InvoiceUploadForm } from "@/modules/invoice/components/invoice-upload-form";
+import { headers } from "next/headers";
 
-export default function ArchivePage() {
-  return <div><InvoiceUploadForm folder="/invorgai" maxFiles={20} maxSize={10 * 1024 * 1024} /></div>
+export default async function ArchivePage() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
+  console.log(session)
+
+  return <div><InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={20} maxSize={10 * 1024 * 1024} /></div>
 
 }

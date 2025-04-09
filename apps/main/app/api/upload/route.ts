@@ -22,6 +22,9 @@ export async function POST(request: Request) {
       multipart: true,
     })
 
+    // TODO: criar entrada da invoice na bd
+
+
     // await services.images.create({ url: blob.url, name: blob.pathname.split("/")[1] })
 
     return NextResponse.json(blob)
