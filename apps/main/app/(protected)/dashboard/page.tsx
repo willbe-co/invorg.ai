@@ -1,20 +1,26 @@
-import { DashboardHello } from "@/components/dashboard-hello"
+import { DEFAULT_LIMIT } from "@/constants"
+import { DashboardView } from "@/modules/dashboard/ui/views/dashboard-view"
 import { HydrateClient, trpc } from "@/trpc/server"
-import { Suspense } from "react"
-import { ErrorBoundary } from "react-error-boundary"
 
-export default async function DashboardPage() {
-  void trpc.hello.prefetch({ text: "ola rica" })
+export const dynamic = "force-dynamic"
+
+type Props = {
+  searchParams: Promise<{
+    month?: string
+  }>
+}
+
+export default async function DashboardPage({ searchParams }: Props) {
+  const { month } = await searchParams
+
+  void trpc.invoice.getMany.prefetchInfinite({
+    limit: DEFAULT_LIMIT,
+  }
+  )
+
   return (
     <HydrateClient>
-      <Suspense fallback={<p>Loading...</p>}>
-        <ErrorBoundary fallback={<p>Error...</p>}>
-          <DashboardHello />
-          <div>
-            Dashboard
-          </div>
-        </ErrorBoundary>
-      </Suspense>
+      <DashboardView month={month} />
     </HydrateClient>
   )
 }

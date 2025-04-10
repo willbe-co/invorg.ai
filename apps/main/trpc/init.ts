@@ -6,11 +6,11 @@ import { cache } from 'react';
 import superjson from "superjson"
 import { ZodError } from 'zod';
 
-export const createTRPCContext = cache(async (opts: { headers: Headers }) => {
+export const createTRPCContext = cache(async () => {
   const authSession = await auth.api.getSession({
-    headers: opts.headers
+    headers: await headers()
   })
-  return { db, session: authSession?.session, user: authSession?.user, ...opts }
+  return { db, session: authSession?.session, user: authSession?.user }
 });
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>
@@ -29,7 +29,6 @@ const t = initTRPC.context<Context>().create({
   },
 });
 
-// Base router and procedure helpers
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 
@@ -56,10 +55,11 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   return result;
 });
 
-export const baseProcedure = t.procedure.use(timingMiddleware)
+export const baseProcedure = t.procedure
+// .use(timingMiddleware)
 
 export const protectedProcedure = t.procedure
-  .use(timingMiddleware)
+  // .use(timingMiddleware)
   .use(({ ctx, next }) => {
     if (!ctx?.user) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -67,8 +67,8 @@ export const protectedProcedure = t.procedure
 
     return next({
       ctx: {
-        // infers the `session` as non-nullable
-        session: { session: ctx.session, user: ctx.user },
+        session: ctx.session,
+        user: ctx.user
       },
     });
   });

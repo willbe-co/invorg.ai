@@ -1,0 +1,1 @@
+ALTER TABLE "invoice" ADD COLUMN "document_url" text;

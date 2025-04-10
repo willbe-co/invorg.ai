@@ -3,10 +3,10 @@
 import { trpc } from "@/trpc/client"
 
 export const DashboardHello = () => {
-  const [data] = trpc.hello.useSuspenseQuery({ text: "Rica" })
+  const [data] = trpc.invoice.getMany.useSuspenseQuery()
   return (
     <div>
-      {data.greeting}
+      {JSON.stringify(data)}
     </div>
   )
 }
