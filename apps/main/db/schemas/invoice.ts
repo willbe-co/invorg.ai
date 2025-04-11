@@ -1,5 +1,9 @@
-
-import { pgTable, text, integer, timestamp, boolean } from "drizzle-orm/pg-core";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
+import { pgTable, text, integer, timestamp } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2"
 import { vendor } from "./vendor";
 import { user } from "./auth";
@@ -20,3 +24,7 @@ export const invoice = pgTable("invoice", {
   createdAt: timestamp('created_at', { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: "date" }).defaultNow().notNull()
 });
+
+export const invoiceSelectSchema = createSelectSchema(invoice);
+export const invoiceInsertSchema = createInsertSchema(invoice);
+export const invoiceUpdateSchema = createUpdateSchema(invoice);

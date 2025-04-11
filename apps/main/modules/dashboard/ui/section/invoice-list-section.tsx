@@ -40,7 +40,7 @@ const InvoiceListSectionSuspense = () => {
   })
   return (
     <div>
-      <Button onClick={() => create.mutate()} disabled={create.isPending}>Create invoice</Button>
+      {/* <Button onClick={() => create.mutate()} disabled={create.isPending}>Create invoice</Button> */}
       <div className="border-y">
         <Table>
           <TableHeader>

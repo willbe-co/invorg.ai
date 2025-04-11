@@ -1,4 +1,4 @@
-import { invoice } from "@/db/schemas/invoice";
+import { invoice, invoiceInsertSchema } from "@/db/schemas/invoice";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { z } from "zod";
 
@@ -43,18 +43,22 @@ export const invoicesRouter = createTRPCRouter({
       return { items, nextCursor };
     }),
 
-  create: protectedProcedure.mutation(async ({ ctx }) => {
-    const { id: userId } = ctx.user
+  create: protectedProcedure
+    .input(invoiceInsertSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { id: userId } = ctx.user
 
-    // throw new TRPCError({ code: "BAD_REQUEST" })
-    const [createdInvoice] = await ctx.db.insert(invoice)
-      .values({
-        userId,
-        vendorId: "123"
-      }).returning()
+      // throw new TRPCError({ code: "BAD_REQUEST" })
+      const [createdInvoice] = await ctx.db
+        .insert(invoice)
+        .values({
+          userId,
+          documentUrl: input.documentUrl,
+          vendorId: input.vendorId
+        }).returning()
 
-    return {
-      invoice: createdInvoice
-    }
-  })
+      return {
+        invoice: createdInvoice
+      }
+    })
 })

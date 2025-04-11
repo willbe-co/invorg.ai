@@ -1,3 +1,4 @@
+import { trpc } from "@/trpc/server"
 import { put } from "@vercel/blob"
 import { NextResponse } from "next/server"
 
@@ -25,6 +26,11 @@ export async function POST(request: Request) {
     // TODO: criar entrada da invoice na bd
 
 
+    await trpc.invoice.create({
+      userId: "123",
+      vendorId: "123",
+      documentUrl: blob.url
+    })
     // await services.images.create({ url: blob.url, name: blob.pathname.split("/")[1] })
 
     return NextResponse.json(blob)
