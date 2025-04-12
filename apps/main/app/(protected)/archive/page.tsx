@@ -8,8 +8,9 @@ export default async function ArchivePage() {
     headers: await headers()
   })
 
-  console.log(session)
-
-  return <div><InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={20} maxSize={10 * 1024 * 1024} /></div>
-
+  return (
+    <div>
+      <InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={20} maxSize={10 * 1024 * 1024} />
+    </div>
+  )
 }

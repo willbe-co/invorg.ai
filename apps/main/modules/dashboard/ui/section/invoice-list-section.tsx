@@ -9,6 +9,8 @@ import { ErrorBoundary } from "react-error-boundary"
 import { InfiniteScroll } from "@/components/infinite-scroll"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
+import { LoaderIcon } from "lucide-react"
 
 export const InvoiceListSection = () => {
 
@@ -48,6 +50,7 @@ const InvoiceListSectionSuspense = () => {
               <TableHead className="pl-6">Date</TableHead>
               <TableHead className="">Vendor</TableHead>
               <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="px-2 text-right">State</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -62,6 +65,14 @@ const InvoiceListSectionSuspense = () => {
                   </TableCell>
                   <TableCell className="text-right">
                     {invoice.totalAmount}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Badge>
+                      {invoice.state === "processing" &&
+                        <LoaderIcon className="animate-spin" />
+                      }
+                      {invoice.state}
+                    </Badge>
                   </TableCell>
                 </TableRow>
               </Link>

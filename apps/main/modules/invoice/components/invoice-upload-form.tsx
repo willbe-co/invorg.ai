@@ -95,6 +95,7 @@ export function InvoiceUploadForm({
             ),
           )
           router.refresh()
+          console.log(response)
         } else {
           setFiles((prev) =>
             prev.map((f) =>

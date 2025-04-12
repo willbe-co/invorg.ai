@@ -1,0 +1,1 @@
+ALTER TABLE "invoice" ALTER COLUMN "vendor_id" DROP NOT NULL;

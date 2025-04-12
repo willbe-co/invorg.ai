@@ -1,5 +1,5 @@
-import { invoice, invoiceInsertSchema } from "@/db/schemas/invoice";
-import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { invoice, invoiceInsertSchema, invoiceUpdateSchema } from "@/db/schemas/invoice";
+import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { z } from "zod";
 
 import { and, desc, eq, lt, or } from "drizzle-orm";
@@ -43,12 +43,24 @@ export const invoicesRouter = createTRPCRouter({
       return { items, nextCursor };
     }),
 
+  getOne: protectedProcedure
+    .input(z.object({
+      id: z.string()
+    }))
+    .query(async ({ ctx, input }) => {
+      const user = ctx.user
+      const [data] = await ctx.db.select()
+        .from(invoice)
+        .where(and(eq(invoice.id, input.id), eq(invoice.userId, user.id)))
+
+      return { data };
+    }),
+
   create: protectedProcedure
     .input(invoiceInsertSchema)
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user
 
-      // throw new TRPCError({ code: "BAD_REQUEST" })
       const [createdInvoice] = await ctx.db
         .insert(invoice)
         .values({
@@ -59,6 +71,24 @@ export const invoicesRouter = createTRPCRouter({
 
       return {
         invoice: createdInvoice
+      }
+    }),
+
+  update: baseProcedure
+    .input(invoiceUpdateSchema)
+    .mutation(async ({ ctx, input }) => {
+
+      if (!input || !input.id)
+        throw new TRPCError({ code: "BAD_REQUEST" })
+
+      const [updatedInvoice] = await ctx.db
+        .update(invoice)
+        .set(input)
+        .where(eq(invoice.id, input.id))
+        .returning()
+
+      return {
+        invoice: updatedInvoice
       }
     })
 })

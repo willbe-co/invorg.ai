@@ -3,10 +3,13 @@ import {
   createSelectSchema,
   createUpdateSchema,
 } from "drizzle-zod";
-import { pgTable, text, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp, pgEnum } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2"
 import { vendor } from "./vendor";
 import { user } from "./auth";
+
+
+export const stateEnum = pgEnum("state", ["processing", "processed", "incomplete", "error"])
 
 const invoiceId = () => `inv_${createId()}`
 
@@ -15,12 +18,16 @@ export const invoice = pgTable("invoice", {
     .primaryKey()
     .$defaultFn(() => invoiceId()),
   userId: text('user_id').notNull().references(() => user.id, { onDelete: "cascade" }),
-  vendorId: text('vendor_id').notNull().references(() => vendor.id, { onDelete: 'set null' }),
-  invoiceVendorRef: text("invoice_vendor_ref"),
+  vendorId: text('vendor_id').references(() => vendor.id, { onDelete: 'set null' }),
+  invoiceNumber: text("invoice_number").unique(),
   documentUrl: text("document_url"),
+  subtotalAmount: integer("sub_total_amount").default(0),
+  taxAmount: integer("tax_amount").default(0),
   totalAmount: integer("total_amount").default(0),
+  paymentTerms: text("payment_terms"),
+  state: stateEnum().default("processing"),
   dueDate: timestamp('due_date', { mode: "date" }).defaultNow().notNull(),
-  invoicedDate: timestamp("invoiced_date").defaultNow().notNull(),
+  issueDate: timestamp("issue_date", { mode: "date" }).defaultNow().notNull(),
   createdAt: timestamp('created_at', { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: "date" }).defaultNow().notNull()
 });
