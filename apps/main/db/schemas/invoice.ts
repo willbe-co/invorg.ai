@@ -9,7 +9,7 @@ import { vendor } from "./vendor";
 import { user } from "./auth";
 
 
-export const stateEnum = pgEnum("state", ["processing", "processed", "incomplete", "error"])
+export const stateEnum = pgEnum("state", ["processing", "processed", "incomplete", "error", "duplicated"])
 
 const invoiceId = () => `inv_${createId()}`
 

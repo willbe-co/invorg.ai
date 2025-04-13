@@ -83,14 +83,14 @@ export const jobGetPdfData = task({
 
     logger.info(JSON.parse(JSON.stringify(result.object)))
 
-    await fetch(`https://e8e8-2001-818-dfa6-9200-ca0-d3c-4cbf-27c0.ngrok-free.app/api/webhooks/pdf-data`,
+    await fetch(`https://painfully-chief-ram.ngrok-free.app/api/webhooks/pdf-data`,
       {
         method: "post",
         body: JSON.stringify({
           userId,
           invoiceId,
           data: {
-            ...result.object
+            ...result.object,
           }
         })
       }

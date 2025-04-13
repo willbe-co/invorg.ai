@@ -29,12 +29,13 @@ interface FileUploadProps {
 
 export function InvoiceUploadForm({
   folder = "",
-  maxFiles = 10,
-  maxSize = 10 * 1024 * 1024, // 10MB default
+  maxFiles = 3,
+  maxSize = 2 * 1024 * 1024, // 10MB default
   onUploadComplete,
 }: FileUploadProps) {
   const [files, setFiles] = useState<FileWithStatus[]>([])
   const [folderName, setFolderName] = useState(folder)
+
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -95,7 +96,7 @@ export function InvoiceUploadForm({
             ),
           )
           router.refresh()
-          console.log(response)
+          // console.log(response)
         } else {
           setFiles((prev) =>
             prev.map((f) =>
@@ -188,10 +189,10 @@ export function InvoiceUploadForm({
         <input {...getInputProps()} />
         <div className="flex flex-col items-center justify-center gap-2">
           <Upload className="h-10 w-10 text-muted-foreground" />
-          <h3 className="text-lg font-medium">{isDragActive ? "Largue aqui os ficheiros" : "Arraste e largue aqui os ficheiros"}</h3>
-          <p className="text-sm text-muted-foreground">ou click para selecionar as imagens</p>
+          <h3 className="text-lg font-medium">{isDragActive ? "Drop files here" : "Drag and drop files here"}</h3>
+          <p className="text-sm text-muted-foreground">or click to select files</p>
           <p className="text-xs text-muted-foreground mt-2">
-            Máximo de {maxFiles} ficheiros, até {(maxSize / (1024 * 1024)).toFixed(0)}MB cada
+            Max of {maxFiles} files {(maxSize / (1024 * 1024)).toFixed(0)}MB each
           </p>
         </div>
       </div>
@@ -208,14 +209,14 @@ export function InvoiceUploadForm({
                 onClick={() => setFiles([])}
                 disabled={files.some((f) => f.status === "uploading")}
               >
-                Limpar tudo
+                Clear all
               </Button>
               <Button
                 size="sm"
                 onClick={uploadAllFiles}
                 disabled={!files.some((f) => f.status === "idle") || files.some((f) => f.status === "uploading")}
               >
-                Upload tudo
+                Upload all
               </Button>
             </div>
           </div>
@@ -271,7 +272,7 @@ export function InvoiceUploadForm({
                             disabled={fileWithStatus.status === "uploading"}
                           >
                             <X className="h-4 w-4" />
-                            <span className="sr-only">Remover</span>
+                            <span className="sr-only">Remove</span>
                           </Button>
                         </div>
                       </div>
@@ -289,7 +290,7 @@ export function InvoiceUploadForm({
                       {/* )} */}
 
                       {fileWithStatus.status === "error" && (
-                        <p className="text-xs text-destructive mt-1">{fileWithStatus.error || "Upload falhou"}</p>
+                        <p className="text-xs text-destructive mt-1">{fileWithStatus.error || "Upload failed"}</p>
                       )}
                     </div>
                   </div>

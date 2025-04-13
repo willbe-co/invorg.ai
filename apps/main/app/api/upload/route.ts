@@ -10,9 +10,6 @@ import { jobGetPdfData } from "@/trigger/job-get-pdf-data"
 
 // TODO: proteger a rota
 
-
-// Define the type from the schema
-
 export async function POST(request: Request) {
   try {
     const formData = await request.formData()
@@ -23,7 +20,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 })
     }
 
-    // Create path with folder if provided
     const path = folder ? `${folder}/${file.name}` : file.name
 
     const blob = await put(path, file, {
@@ -31,11 +27,6 @@ export async function POST(request: Request) {
       addRandomSuffix: true,
       multipart: true,
     })
-
-    // START PDF GET DATA JOB
-
-
-    // TODO: criar entrada da invoice na bd
 
     const session = await auth.api.getSession({
       headers: await headers()
@@ -49,6 +40,7 @@ export async function POST(request: Request) {
       documentUrl: blob.url
     })
 
+    // TODO: fazer queu de uploads...
 
     const bgJob = await tasks.trigger<typeof jobGetPdfData>(
       "get-pdf-data", { docUrl: blob.url, userId: session.user.id, invoiceId: invoice.id }

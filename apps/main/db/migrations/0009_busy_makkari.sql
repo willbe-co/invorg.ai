@@ -1,0 +1,1 @@
+ALTER TYPE "public"."state" ADD VALUE 'duplicated';

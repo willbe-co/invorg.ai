@@ -11,6 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { LoaderIcon } from "lucide-react"
+import { format } from "date-fns"
 
 export const InvoiceListSection = () => {
 
@@ -47,32 +48,52 @@ const InvoiceListSectionSuspense = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="pl-6">Date</TableHead>
+              <TableHead className="w-52">Date</TableHead>
               <TableHead className="">Vendor</TableHead>
+              <TableHead className="">Contact email</TableHead>
               <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="px-2 text-right">State</TableHead>
+              <TableHead className="w-32 text-center">State</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.pages.flatMap((page) => page.items).map((invoice) => (
-              <Link href={`/invoice/${invoice.id}`} key={invoice.id} legacyBehavior>
+              <Link href={`/invoice/${invoice.id}`} key={invoice.id} legacyBehavior prefetch={true}>
                 <TableRow className="cursor-pointer">
                   <TableCell>
-                    {invoice.dueDate.toISOString()}
+                    {format(invoice.dueDate, "PPP")}
                   </TableCell>
                   <TableCell>
-                    {invoice.vendorId}
+                    {invoice.vendor?.name}
+                  </TableCell>
+                  <TableCell>
+                    {invoice.vendor?.email}
                   </TableCell>
                   <TableCell className="text-right">
-                    {invoice.totalAmount}
+                    {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
+                      new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+                        .format((invoice.totalAmount / 1000 || 0)) :
+                      '—'}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <Badge>
-                      {invoice.state === "processing" &&
+                  <TableCell className="text-center">
+                    {
+                      invoice.state === "processing" &&
+                      <Badge variant={"processing"} >
                         <LoaderIcon className="animate-spin" />
-                      }
-                      {invoice.state}
-                    </Badge>
+                        Processing
+                      </Badge>
+                    }
+                    {
+                      invoice.state === "duplicated" &&
+                      <Badge variant={"warning"}>
+                        Duplicated
+                      </Badge>
+                    }
+                    {
+                      invoice.state === "processed" &&
+                      <Badge variant={"success"}>
+                        Validated
+                      </Badge>
+                    }
                   </TableCell>
                 </TableRow>
               </Link>

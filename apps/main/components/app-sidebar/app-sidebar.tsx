@@ -31,8 +31,8 @@ const data = {
           isActive: true,
         },
         {
-          title: "Archive",
-          url: "/archive",
+          title: "Vendors",
+          url: "/vendor",
         },
       ],
     },

@@ -4,13 +4,14 @@ import { z } from "zod";
 
 import { and, desc, eq, lt, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { vendor } from "@/db/schemas/vendor";
 
 export const invoicesRouter = createTRPCRouter({
   getMany: protectedProcedure
     .input(z.object({
       cursor: z.object({
         id: z.string(),
-        updatedAt: z.date(),
+        dueDate: z.date(),
       })
         .nullish(),
       limit: z.number().min(1).max(100)
@@ -18,18 +19,40 @@ export const invoicesRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { cursor, limit } = input
       const user = ctx.user
-      const data = await ctx.db.select()
+      const data = await ctx.db.select({
+        id: invoice.id,
+        userId: invoice.userId,
+        vendorId: invoice.vendorId,
+        invoiceNumber: invoice.invoiceNumber,
+        documentUrl: invoice.documentUrl,
+        subtotalAmount: invoice.subtotalAmount,
+        taxAmount: invoice.taxAmount,
+        totalAmount: invoice.totalAmount,
+        paymentTerms: invoice.paymentTerms,
+        state: invoice.state,
+        dueDate: invoice.dueDate,
+        issueDate: invoice.issueDate,
+        createdAt: invoice.createdAt,
+        updatedAt: invoice.updatedAt,
+        vendor: {
+          name: vendor.name,
+          address: vendor.address,
+          email: vendor.email
+        }
+      })
         .from(invoice)
         .where(and(
           eq(invoice.userId, user.id),
           cursor ? or(
-            lt(invoice.updatedAt, cursor.updatedAt),
+            lt(invoice.dueDate, cursor.dueDate),
             and(
-              eq(invoice.updatedAt, cursor.updatedAt),
+              eq(invoice.dueDate, cursor.dueDate),
               lt(invoice.id, cursor.id)
             )
           ) : undefined
-        )).orderBy(desc(invoice.updatedAt))
+        ))
+        .orderBy(desc(invoice.dueDate))
+        .leftJoin(vendor, eq(invoice.vendorId, vendor.id))
         .limit(limit + 1)
 
       const hasMore = data.length > limit
@@ -37,7 +60,7 @@ export const invoicesRouter = createTRPCRouter({
       const lastItem = items[items.length - 1]
       const nextCursor = hasMore ? {
         id: lastItem.id,
-        updatedAt: lastItem.updatedAt
+        dueDate: lastItem.dueDate
       } : null
 
       return { items, nextCursor };
@@ -49,9 +72,65 @@ export const invoicesRouter = createTRPCRouter({
     }))
     .query(async ({ ctx, input }) => {
       const user = ctx.user
-      const [data] = await ctx.db.select()
+      const [data] = await ctx.db.select({
+        id: invoice.id,
+        userId: invoice.userId,
+        vendorId: invoice.vendorId,
+        invoiceNumber: invoice.invoiceNumber,
+        documentUrl: invoice.documentUrl,
+        subtotalAmount: invoice.subtotalAmount,
+        taxAmount: invoice.taxAmount,
+        totalAmount: invoice.totalAmount,
+        paymentTerms: invoice.paymentTerms,
+        state: invoice.state,
+        dueDate: invoice.dueDate,
+        issueDate: invoice.issueDate,
+        createdAt: invoice.createdAt,
+        updatedAt: invoice.updatedAt,
+        vendor: {
+          name: vendor.name,
+          address: vendor.address,
+          email: vendor.email
+        }
+      })
         .from(invoice)
+        .leftJoin(vendor, eq(invoice.vendorId, vendor.id))
         .where(and(eq(invoice.id, input.id), eq(invoice.userId, user.id)))
+
+
+      return { data };
+    }),
+
+  getByInvoiceNumber: baseProcedure
+    .input(z.object({
+      invoiceNumber: z.string(),
+      userId: z.string()
+    }))
+    .query(async ({ ctx, input }) => {
+      const [data] = await ctx.db.select({
+        id: invoice.id,
+        userId: invoice.userId,
+        vendorId: invoice.vendorId,
+        invoiceNumber: invoice.invoiceNumber,
+        documentUrl: invoice.documentUrl,
+        subtotalAmount: invoice.subtotalAmount,
+        taxAmount: invoice.taxAmount,
+        totalAmount: invoice.totalAmount,
+        paymentTerms: invoice.paymentTerms,
+        state: invoice.state,
+        dueDate: invoice.dueDate,
+        issueDate: invoice.issueDate,
+        createdAt: invoice.createdAt,
+        updatedAt: invoice.updatedAt,
+        vendor: {
+          name: vendor.name,
+          address: vendor.address,
+          email: vendor.email
+        }
+      })
+        .from(invoice)
+        .leftJoin(vendor, eq(invoice.vendorId, vendor.id))
+        .where(and(eq(invoice.invoiceNumber, input.invoiceNumber), eq(invoice.userId, input.userId)))
 
       return { data };
     }),
