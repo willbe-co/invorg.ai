@@ -1,17 +1,32 @@
 import { DEFAULT_LIMIT } from "@/constants"
 import { DashboardView } from "@/modules/dashboard/ui/views/dashboard-view"
-import { loadInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 import { HydrateClient, trpc } from "@/trpc/server"
-import type { SearchParams } from 'nuqs/server'
+import { createLoader, parseAsString, parseAsStringEnum, parseAsTimestamp, type SearchParams } from 'nuqs/server'
 
 export const dynamic = "force-dynamic"
+
+enum InvoiceState {
+  processing = "processing",
+  processed = "processed",
+  duplicated = "duplicated"
+}
+
+const params = {
+  vendor: parseAsString,
+  vendor_id: parseAsString,
+  start_date: parseAsTimestamp,
+  end_date: parseAsTimestamp,
+  state: parseAsStringEnum<InvoiceState>(Object.values(InvoiceState))
+}
 
 type Props = {
   searchParams: Promise<SearchParams>
 }
 
 export default async function DashboardPage({ searchParams }: Props) {
-  const { vendor_id, vendor, state, start_date, end_date } = await loadInvoiceFilterParams(searchParams)
+  const loader = createLoader(params)
+
+  const { vendor_id, vendor, state, start_date, end_date } = await loader(searchParams)
 
   void trpc.invoice.getMany.prefetchInfinite({
     limit: DEFAULT_LIMIT,

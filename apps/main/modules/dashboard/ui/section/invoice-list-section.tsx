@@ -12,6 +12,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { LoaderIcon } from "lucide-react"
 import { format } from "date-fns"
+import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 
 export const InvoiceListSection = () => {
 
@@ -26,6 +27,8 @@ export const InvoiceListSection = () => {
 }
 
 const InvoiceListSectionSuspense = () => {
+  const { setParams, vendor_id, vendor, state, start_date, end_date } = useInvoiceFilterParams()
+
   const [data, query] = trpc.invoice.getMany.useSuspenseInfiniteQuery({
     limit: DEFAULT_LIMIT
   }, {
@@ -44,6 +47,7 @@ const InvoiceListSectionSuspense = () => {
   return (
     <div>
       {/* <Button onClick={() => create.mutate()} disabled={create.isPending}>Create invoice</Button> */}
+      <div>Filtros...</div>
       <div className="border-y">
         <Table>
           <TableHeader>

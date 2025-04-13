@@ -14,18 +14,16 @@ enum InvoiceState {
   duplicated = "duplicated"
 }
 
-const paramsSchema = {
-  // vendor: parseAsString.withDefault("").withOptions({ history: "push" }),
-  vendor: parseAsString.withDefault(""),
-  vendor_id: parseAsArrayOf(parseAsString),
-  start_date: parseAsTimestamp,
-  end_date: parseAsTimestamp,
-  state: parseAsStringEnum<InvoiceState>(Object.values(InvoiceState))
-}
 
 export function useInvoiceFilterParams(options?: { shallow: boolean, throttleMs: number }) {
   const [params, setParams] = useQueryStates(
-    paramsSchema,
+    {
+      vendor: parseAsString,
+      vendor_id: parseAsString,
+      start_date: parseAsTimestamp,
+      end_date: parseAsTimestamp,
+      state: parseAsStringEnum<InvoiceState>(Object.values(InvoiceState))
+    },
     {
       shallow: false,
       throttleMs: 500,
@@ -39,5 +37,3 @@ export function useInvoiceFilterParams(options?: { shallow: boolean, throttleMs:
 
   };
 }
-
-export const loadInvoiceFilterParams = createLoader(paramsSchema)
