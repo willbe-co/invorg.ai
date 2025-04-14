@@ -1,6 +1,7 @@
 import { db } from '@/db';
 import { getSession } from '@/lib/auth';
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
+import { headers } from 'next/headers';
 import { cache } from 'react';
 import superjson from "superjson"
 import { ZodError } from 'zod';
@@ -8,7 +9,7 @@ import { ZodError } from 'zod';
 export const createTRPCContext = cache(async (
   opts: { headers: Headers }
 ) => {
-  const session = await getSession({ headers: opts.headers })
+  const session = await getSession({ headers: await headers() })
 
   return { db, session: session?.session, user: session?.user, ...opts }
 });
@@ -35,16 +36,16 @@ export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure
 
 export const protectedProcedure = t.procedure
-  .use(({ ctx, next }) => {
-    console.log("from init.ts: ", ctx)
-    // if (!ctx?.user) {
-    //   throw new TRPCError({ code: "UNAUTHORIZED" });
-    // }
+  .use(async ({ ctx, next }) => {
+
+    if (!ctx.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
 
     return next({
       ctx: {
-        session: ctx.session!,
-        user: ctx.user!
+        session: ctx.session,
+        user: ctx.user
       },
     });
   });
