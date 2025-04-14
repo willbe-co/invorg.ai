@@ -15,7 +15,7 @@ export default async function ArchivePage() {
           <p className="text-xs text-muted-foreground">Upload your invoice documents</p>
         </div>
       </div>
-      <InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={3} maxSize={1 * 1024 * 1024} />
+      <InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={5} maxSize={1 * 1024 * 1024} />
     </div>
   )
 }
