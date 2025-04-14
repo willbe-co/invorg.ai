@@ -25,7 +25,6 @@ type Props = {
 
 export default async function DashboardPage({ searchParams }: Props) {
   const loader = createLoader(params)
-
   const { vendor_id, vendor_query, state, start_date, end_date } = await loader(searchParams)
 
   void trpc.invoice.getMany.prefetchInfinite({

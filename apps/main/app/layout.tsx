@@ -33,8 +33,8 @@ export default function RootLayout({
         <NuqsAdapter>
           <TRPCProvider>
             {children}
-            <Toaster richColors />
           </TRPCProvider>
+          <Toaster richColors />
         </NuqsAdapter>
       </body>
     </html>

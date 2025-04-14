@@ -50,17 +50,26 @@ export function TRPCProvider(
           async headers() {
             const headers = new Headers()
             headers.set("x-trpc-source", "nextjs-react")
-            return headers
-          }
+            return {
+              ...headers,
+              credentials: 'include',
+            }
+          },
+          fetch: (url, options) => {
+            return fetch(url, {
+              ...options,
+              credentials: 'include',
+            });
+          },
         }),
       ],
     }),
   );
   return (
-    <QueryClientProvider client={queryClient}>
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
         {props.children}
-      </trpc.Provider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </trpc.Provider>
   );
 }

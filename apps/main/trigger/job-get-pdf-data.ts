@@ -6,8 +6,8 @@ import { z } from "zod";
 
 export const invoiceWebhookSchema = z.object({
   invoiceNumber: z.string(),
-  issueDate: z.string(),
-  dueDate: z.string(),
+  issueDate: z.string().describe("Invoice issue date"),
+  dueDate: z.string().describe("Invoice due date (usually when invoice must be paid)"),
   vendor: z.object({
     name: z.string(),
     address: z.string(),
@@ -25,19 +25,12 @@ export const invoiceWebhookSchema = z.object({
       amount: z.number(),
     }),
   ),
-  currency: z.string().nullable().describe("Three-lettter ISO 4217 currency code (e.g., USD, EUR)"),
-  subtotalAmount: z.number(),
-  taxAmount: z.number(),
-  totalAmount: z.number(),
+  currency: z.string().nullable().describe("Three-letter ISO 4217 currency code (e.g., USD, EUR)"),
+  subtotalAmount: z.number().describe("Amount excluding tax"),
+  taxAmount: z.number().describe("Taxes amount"),
+  totalAmount: z.number().describe("Total amount including tax"),
+  paymentMethod: z.string().optional().describe("Payment method used"),
   paymentTerms: z.string().optional(),
-  paymentInstructions: z
-    .object({
-      bankName: z.string().optional(),
-      accountNumber: z.string().optional(),
-      routingNumber: z.string().optional(),
-      swift: z.string().optional(),
-    })
-    .optional(),
 })
 
 type InvoiceWebhookData = z.infer<typeof invoiceWebhookSchema>
@@ -71,7 +64,7 @@ export const jobGetPdfData = task({
           content: [
             {
               type: "text",
-              text: "You are an expert multilingual document parser specialized in extracting structured data from financial documents, either invoices or receipts",
+              text: "You are an expert multilingual document parser specialized in extracting structured data from financial documents, either invoices or receipts.",
             },
             {
               type: "file",

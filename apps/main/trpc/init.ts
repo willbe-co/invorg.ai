@@ -11,6 +11,10 @@ export const createTRPCContext = cache(async (
 ) => {
   const session = await getSession({ headers: opts.headers })
 
+  console.log("------------------ ")
+  console.log("passa aqui antes? ", session)
+  console.log("------------------ ")
+
   return { db, session: session?.session, user: session?.user, ...opts }
 });
 
@@ -36,16 +40,17 @@ export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure
 
 export const protectedProcedure = t.procedure
-  .use(async ({ ctx, next }) => {
+  .use(async function isAuthed({ ctx, next }) {
 
-    if (!ctx.user) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
+    if (!ctx.session || !ctx.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "You must be logged in to access this resource" });
     }
 
     return next({
       ctx: {
         session: ctx.session,
         user: ctx.user
+
       },
     });
   });

@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
 
     const data = res.data
 
+    console.log("from webhook: ", data)
+
     let vendorExists = null
     if (data.vendor && data.vendor.name) {
       const tempRes = await trpc.vendor.getByName({ name: data.vendor.name, userId: res.userId })
