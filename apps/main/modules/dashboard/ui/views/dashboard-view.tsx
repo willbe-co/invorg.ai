@@ -20,9 +20,9 @@ export const DashboardView = async ({ month }: Props) => {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <p className="text-xs text-muted-foreground">Manage your invoices</p>
         </div>
-        <div className="col-span-7">
-          <InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={3} maxSize={1 * 1024 * 1024} />
-        </div>
+        {/* <div className="col-span-7"> */}
+        {/*   <InvoiceUploadForm folder={`/${session?.user.id}`} maxFiles={3} maxSize={1 * 1024 * 1024} /> */}
+        {/* </div> */}
       </div>
 
       <SearchFilterSection />

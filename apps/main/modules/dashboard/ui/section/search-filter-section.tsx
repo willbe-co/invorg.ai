@@ -1,19 +1,14 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { DEFAULT_LIMIT } from "@/constants"
-import { trpc } from "@/trpc/client"
 import { Suspense } from "react"
-import { toast } from "sonner"
 import { ErrorBoundary } from "react-error-boundary"
-import { InfiniteScroll } from "@/components/infinite-scroll"
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { LoaderIcon } from "lucide-react"
-import { format } from "date-fns"
+import { X } from "lucide-react"
 import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 import { InvoiceDateFilter } from "../../components/invoice-date-filter"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export const SearchFilterSection = () => {
 
@@ -45,15 +40,38 @@ const SearchFilterSectionSuspense = () => {
   //     toast.error(error.message)
   //   }
   // })
-  return (
-    <div className="flex items-end gap-4">
-      <div>
-        ...search...
-      </div>
-      <div>
-        <InvoiceDateFilter />
-      </div>
+  //
+  const clearFilters = () => {
+    setParams({
+      vendor: null,
+      vendor_id: null,
+      state: null,
+      start_date: null,
+      end_date: null
+    })
+  }
 
+  return (
+    <div className=" flex items-end justify-between">
+
+      <div className="">
+        <div className="min-w-72 space-y-2">
+          <InvoiceDateFilter />
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        {(vendor || vendor_id || state || start_date || end_date) && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearFilters}
+            className="h-8 gap-1 text-xs"
+          >
+            <X className="h-3.5 w-3.5" />
+            Clear filters
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

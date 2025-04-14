@@ -18,15 +18,16 @@ enum InvoiceState {
 export function useInvoiceFilterParams(options?: { shallow: boolean, throttleMs: number }) {
   const [params, setParams] = useQueryStates(
     {
-      vendor: parseAsString,
+      vendor_query: parseAsString,
       vendor_id: parseAsString,
       start_date: parseAsTimestamp,
       end_date: parseAsTimestamp,
       state: parseAsStringEnum<InvoiceState>(Object.values(InvoiceState))
     },
     {
-      shallow: false,
+      shallow: true,
       throttleMs: 500,
+      history: "replace",
       ...options
     }
   );

@@ -35,8 +35,8 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
   const invoice = data.data
 
   return (
-    <div className="grid gap-6 lg:gap-4 lg:grid-cols-12 ">
-      <div className="col-span-3 flex flex-col gap-4">
+    <div className="grid gap-4 @6xl:grid-cols-12 ">
+      <div className="@6xl:col-span-4 flex flex-col gap-4">
         <Card className="p-3">
           <CardContent className="p-0">
             <div className="">
@@ -117,7 +117,7 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
         </Card>
       </div>
 
-      <div className="col-span-9">
+      <div className="@6xl:col-span-8">
         {invoice.documentUrl && (
           <Card className="p-0 overflow-clip">
             <CardContent className="p-0">

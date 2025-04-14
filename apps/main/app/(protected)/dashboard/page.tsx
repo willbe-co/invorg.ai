@@ -12,7 +12,7 @@ enum InvoiceState {
 }
 
 const params = {
-  vendor: parseAsString,
+  vendor_query: parseAsString,
   vendor_id: parseAsString,
   start_date: parseAsTimestamp,
   end_date: parseAsTimestamp,
@@ -26,12 +26,16 @@ type Props = {
 export default async function DashboardPage({ searchParams }: Props) {
   const loader = createLoader(params)
 
-  const { vendor_id, vendor, state, start_date, end_date } = await loader(searchParams)
+  const { vendor_id, vendor_query, state, start_date, end_date } = await loader(searchParams)
 
   void trpc.invoice.getMany.prefetchInfinite({
     limit: DEFAULT_LIMIT,
-  }
-  )
+    vendor_id: vendor_id || undefined,
+    vendor_query: vendor_query || undefined,
+    state: state || undefined,
+    start_date: start_date || undefined,
+    end_date: end_date || undefined
+  })
 
   return (
     <HydrateClient>

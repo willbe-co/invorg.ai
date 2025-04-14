@@ -40,7 +40,7 @@ export const InfiniteScroll = ({
             {isFetchingNextPage ? "Loading..." : "Load more"}
           </Button>
         ) : (
-          <div className="text-xs text-muted-foreground">No more invoices</div>
+          <div className="text-xs text-muted-foreground py-1">No more data</div>
         )}
       </div>
     </div>

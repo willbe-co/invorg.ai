@@ -2,7 +2,7 @@ import { invoice, invoiceInsertSchema, invoiceUpdateSchema } from "@/db/schemas/
 import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { z } from "zod";
 
-import { and, desc, eq, lt, or } from "drizzle-orm";
+import { and, desc, eq, gte, lt, lte, or, SQL } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { vendor } from "@/db/schemas/vendor";
 
@@ -14,11 +14,52 @@ export const invoicesRouter = createTRPCRouter({
         dueDate: z.date(),
       })
         .nullish(),
-      limit: z.number().min(1).max(100)
+      limit: z.number().min(1).max(100),
+      vendor_id: z.string().nullish(),
+      vendor_query: z.string().nullish(),
+      state: z.string().nullish(),
+      start_date: z.date().nullish(),
+      end_date: z.date().nullish(),
     }))
     .query(async ({ ctx, input }) => {
-      const { cursor, limit } = input
+
+      const { cursor, limit, vendor_id, vendor_query, state, start_date, end_date } = input;
       const user = ctx.user
+
+      const conditions: SQL[] = [eq(invoice.userId, user.id)];
+
+      if (cursor) {
+        const cursorConditions = or(
+          lt(invoice.dueDate, cursor.dueDate),
+          and(
+            eq(invoice.dueDate, cursor.dueDate),
+            lt(invoice.id, cursor.id)
+          )
+        )
+        conditions.push(cursorConditions!)
+      }
+
+      // Add date range filters if they exist
+      if (start_date) {
+        conditions.push(gte(invoice.dueDate, start_date));
+      }
+
+      if (end_date) {
+        conditions.push(lte(invoice.dueDate, end_date));
+      }
+
+      // Add vendor filter if specified
+      if (vendor_id) {
+        conditions.push(eq(invoice.vendorId, vendor_id));
+      }
+
+      // Add state filter if specified
+      if (state) {
+        //@ts-ignore
+        const stateCondition = eq(invoice.state, state);
+        conditions.push(stateCondition);
+      }
+
       const data = await ctx.db.select({
         id: invoice.id,
         userId: invoice.userId,
@@ -41,27 +82,43 @@ export const invoicesRouter = createTRPCRouter({
         }
       })
         .from(invoice)
-        .where(and(
-          eq(invoice.userId, user.id),
-          cursor ? or(
-            lt(invoice.dueDate, cursor.dueDate),
-            and(
-              eq(invoice.dueDate, cursor.dueDate),
-              lt(invoice.id, cursor.id)
-            )
-          ) : undefined
-        ))
+        // .where(and(
+        //   eq(invoice.userId, user.id),
+        //   cursor ? or(
+        //     lt(invoice.dueDate, cursor.dueDate),
+        //     and(
+        //       eq(invoice.dueDate, cursor.dueDate),
+        //       lt(invoice.id, cursor.id)
+        //     )
+        //   ) : undefined
+        // ))
+        .where(and(...conditions))
         .orderBy(desc(invoice.dueDate))
         .leftJoin(vendor, eq(invoice.vendorId, vendor.id))
         .limit(limit + 1)
 
-      const hasMore = data.length > limit
-      const items = hasMore ? data.slice(0, -1) : data
-      const lastItem = items[items.length - 1]
-      const nextCursor = hasMore ? {
-        id: lastItem.id,
-        dueDate: lastItem.dueDate
-      } : null
+      let filteredData = data;
+      if (vendor_query && vendor_query.trim() !== '') {
+        const searchTerm = vendor_query.toLowerCase();
+        filteredData = data.filter(item =>
+          item.vendor?.name?.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      const hasMore = filteredData.length > limit;
+      const items = hasMore ? filteredData.slice(0, -1) : filteredData;
+
+      // Safely create next cursor
+      let nextCursor = null;
+      if (hasMore && items.length > 0) {
+        const lastItem = items[items.length - 1];
+        if (lastItem && lastItem.id && lastItem.dueDate) {
+          nextCursor = {
+            id: lastItem.id,
+            dueDate: lastItem.dueDate
+          };
+        }
+      }
 
       return { items, nextCursor };
     }),

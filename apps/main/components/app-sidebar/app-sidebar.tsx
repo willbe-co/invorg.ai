@@ -31,6 +31,10 @@ const data = {
           isActive: true,
         },
         {
+          title: "Upload invoices",
+          url: "/upload",
+        },
+        {
           title: "Vendors",
           url: "/vendor",
         },

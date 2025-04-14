@@ -7,7 +7,6 @@ import { ErrorBoundary } from "react-error-boundary"
 import { InfiniteScroll } from "@/components/infinite-scroll"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
-import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 
 export const VendorListSection = () => {
 
@@ -22,7 +21,6 @@ export const VendorListSection = () => {
 }
 
 const VendorListSectionSuspense = () => {
-  const { setParams, vendor_id, vendor, state, start_date, end_date } = useInvoiceFilterParams()
 
   const [data, query] = trpc.vendor.getMany.useSuspenseInfiniteQuery({
     limit: DEFAULT_LIMIT
@@ -32,7 +30,6 @@ const VendorListSectionSuspense = () => {
 
   return (
     <div>
-      <div>Filtros...</div>
       <div className="border-y">
         <Table>
           <TableHeader>
