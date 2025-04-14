@@ -11,7 +11,7 @@ export const VendorView = ({ id }: Props) => {
     <div className="@container flex flex-col gap-y-6">
       <div className="flex items-start gap-2">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/vendor">
+          <Link href="/vendor" prefetch={true}>
             <ChevronLeft className="h-4 w-4" />
             Back
           </Link>

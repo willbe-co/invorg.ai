@@ -9,7 +9,7 @@ import { ZodError } from 'zod';
 export const createTRPCContext = cache(async (
   opts: { headers: Headers }
 ) => {
-  const session = await getSession({ headers: await headers() })
+  const session = await getSession({ headers: opts.headers })
 
   return { db, session: session?.session, user: session?.user, ...opts }
 });

@@ -12,7 +12,7 @@ export const InvoiceView = ({ id }: Props) => {
     <div className="@container flex flex-col gap-y-6">
       <div className="flex items-start gap-2">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/dashboard">
+          <Link href="/dashboard" prefetch={true}>
             <ChevronLeft className="h-4 w-4" />
             Back
           </Link>
