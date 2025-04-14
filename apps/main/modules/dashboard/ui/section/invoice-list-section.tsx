@@ -31,15 +31,15 @@ const InvoiceListSectionSuspense = () => {
 
   const [data, query] = trpc.invoice.getMany.useSuspenseInfiniteQuery({
     limit: DEFAULT_LIMIT,
-    vendor_id,
-    vendor_query,
-    state,
-    start_date,
-    end_date
+    vendor_id: vendor_id || undefined,
+    vendor_query: vendor_query || undefined,
+    state: state || undefined,
+    start_date: start_date || undefined,
+    end_date: end_date || undefined
   }, {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    refetchOnMount: true,
-    refetchOnWindowFocus: false
+    // refetchOnMount: true,
+    // refetchOnWindowFocus: false
   })
 
   const totalItems = data.pages.reduce((count, page) => count + page.items.length, 0)

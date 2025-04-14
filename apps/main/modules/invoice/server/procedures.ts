@@ -12,8 +12,7 @@ export const invoicesRouter = createTRPCRouter({
       cursor: z.object({
         id: z.string(),
         dueDate: z.date(),
-      })
-        .nullish(),
+      }).nullish(),
       limit: z.number().min(1).max(100),
       vendor_id: z.string().nullish(),
       vendor_query: z.string().nullish(),

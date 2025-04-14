@@ -1,6 +1,3 @@
-import { InvoiceUploadForm } from "@/modules/invoice/components/invoice-upload-form"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
 import { VendorListSection } from "../section/vendor-list-section"
 
 type Props = {
@@ -8,9 +5,6 @@ type Props = {
 }
 
 export const VendorsView = async ({ month }: Props) => {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
   return (
     <div className="flex flex-col gap-y-6">
       <div className="grid lg:grid-cols-12 gap-4 lg:gap-6">
