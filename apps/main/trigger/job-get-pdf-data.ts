@@ -83,7 +83,7 @@ export const jobGetPdfData = task({
 
     logger.info(JSON.parse(JSON.stringify(result.object)))
 
-    await fetch(`https://painfully-chief-ram.ngrok-free.app/api/webhooks/pdf-data`,
+    await fetch(process.env.PDF_DATA_WEBHOOK!,
       {
         method: "post",
         body: JSON.stringify({
