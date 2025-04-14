@@ -39,7 +39,6 @@ export const invoicesRouter = createTRPCRouter({
         conditions.push(cursorConditions!)
       }
 
-      // Add date range filters if they exist
       if (start_date) {
         conditions.push(gte(invoice.dueDate, start_date));
       }
@@ -48,12 +47,10 @@ export const invoicesRouter = createTRPCRouter({
         conditions.push(lte(invoice.dueDate, end_date));
       }
 
-      // Add vendor filter if specified
       if (vendor_id) {
         conditions.push(eq(invoice.vendorId, vendor_id));
       }
 
-      // Add state filter if specified
       if (state) {
         //@ts-ignore
         const stateCondition = eq(invoice.state, state);
@@ -82,16 +79,6 @@ export const invoicesRouter = createTRPCRouter({
         }
       })
         .from(invoice)
-        // .where(and(
-        //   eq(invoice.userId, user.id),
-        //   cursor ? or(
-        //     lt(invoice.dueDate, cursor.dueDate),
-        //     and(
-        //       eq(invoice.dueDate, cursor.dueDate),
-        //       lt(invoice.id, cursor.id)
-        //     )
-        //   ) : undefined
-        // ))
         .where(and(...conditions))
         .orderBy(desc(invoice.dueDate))
         .leftJoin(vendor, eq(invoice.vendorId, vendor.id))
@@ -108,7 +95,6 @@ export const invoicesRouter = createTRPCRouter({
       const hasMore = filteredData.length > limit;
       const items = hasMore ? filteredData.slice(0, -1) : filteredData;
 
-      // Safely create next cursor
       let nextCursor = null;
       if (hasMore && items.length > 0) {
         const lastItem = items[items.length - 1];

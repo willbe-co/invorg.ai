@@ -3,6 +3,7 @@ import { account, session, user, verification } from "@/db/schemas";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { nextCookies } from "better-auth/next-js";
+import { cache } from "react";
 
 export const auth = betterAuth({
   appName: "invorg.ai",
@@ -27,3 +28,5 @@ export const auth = betterAuth({
   },
   plugins: [nextCookies()]
 })
+
+export const getSession = cache(auth.api.getSession)
