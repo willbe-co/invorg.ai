@@ -7,7 +7,7 @@ import { Suspense } from "react"
 import { toast } from "sonner"
 import { ErrorBoundary } from "react-error-boundary"
 import { InfiniteScroll } from "@/components/infinite-scroll"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { LoaderIcon } from "lucide-react"
@@ -46,8 +46,9 @@ const InvoiceListSectionSuspense = () => {
   })
   return (
     <div>
-      {/* <Button onClick={() => create.mutate()} disabled={create.isPending}>Create invoice</Button> */}
-      <div>Filtros...</div>
+      <div className="text-xs pb-2">
+        Listing {data.pages.map(p => p.items.length).reduce((prev, next) => (prev + next), 0)} invoices
+      </div>
       <div className="border-y">
         <Table>
           <TableHeader>
@@ -60,8 +61,8 @@ const InvoiceListSectionSuspense = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.pages.flatMap((page) => page.items).map((invoice) => (
-              <Link href={`/invoice/${invoice.id}`} key={invoice.id} legacyBehavior prefetch={true}>
+            {data.pages.flatMap((page) => page.items).map((invoice, index) => (
+              <Link href={`/invoice/${invoice.id}`} key={invoice.id + index} legacyBehavior prefetch={true}>
                 <TableRow className="cursor-pointer">
                   <TableCell>
                     {format(invoice.dueDate, "PPP")}
