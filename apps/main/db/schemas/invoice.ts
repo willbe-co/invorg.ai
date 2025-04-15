@@ -10,6 +10,7 @@ import { user } from "./auth";
 
 
 export const stateEnum = pgEnum("state", ["processing", "processed", "incomplete", "error", "duplicated"])
+export const currencyEnum = pgEnum("currency", ["USD", "EUR"])
 
 const invoiceId = () => `inv_${createId()}`
 
@@ -25,9 +26,11 @@ export const invoice = pgTable("invoice", {
   taxAmount: integer("tax_amount").default(0),
   totalAmount: integer("total_amount").default(0),
   paymentTerms: text("payment_terms"),
-  state: stateEnum().default("processing"),
+  paymentMethod: text("payment_method"),
   dueDate: timestamp('due_date', { mode: "date" }).defaultNow().notNull(),
   issueDate: timestamp("issue_date", { mode: "date" }).defaultNow().notNull(),
+  currency: currencyEnum().default("USD"),
+  state: stateEnum().default("processing"),
   createdAt: timestamp('created_at', { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: "date" }).defaultNow().notNull()
 });

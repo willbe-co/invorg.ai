@@ -67,6 +67,8 @@ export const invoicesRouter = createTRPCRouter({
         totalAmount: invoice.totalAmount,
         paymentTerms: invoice.paymentTerms,
         state: invoice.state,
+        currency: invoice.currency,
+        paymentMethod: invoice.paymentMethod,
         dueDate: invoice.dueDate,
         issueDate: invoice.issueDate,
         createdAt: invoice.createdAt,
@@ -123,6 +125,8 @@ export const invoicesRouter = createTRPCRouter({
         subtotalAmount: invoice.subtotalAmount,
         taxAmount: invoice.taxAmount,
         totalAmount: invoice.totalAmount,
+        currency: invoice.currency,
+        paymentMethod: invoice.paymentMethod,
         paymentTerms: invoice.paymentTerms,
         state: invoice.state,
         dueDate: invoice.dueDate,
@@ -159,6 +163,8 @@ export const invoicesRouter = createTRPCRouter({
         taxAmount: invoice.taxAmount,
         totalAmount: invoice.totalAmount,
         paymentTerms: invoice.paymentTerms,
+        currency: invoice.currency,
+        paymentMethod: invoice.paymentMethod,
         state: invoice.state,
         dueDate: invoice.dueDate,
         issueDate: invoice.issueDate,
@@ -177,10 +183,14 @@ export const invoicesRouter = createTRPCRouter({
       return { data };
     }),
 
-  create: protectedProcedure
+  // create: protectedProcedure
+  //   .input(invoiceInsertSchema)
+  //   .mutation(async ({ ctx, input }) => {
+  //     const { id: userId } = ctx.user
+  create: baseProcedure
     .input(invoiceInsertSchema)
     .mutation(async ({ ctx, input }) => {
-      const { id: userId } = ctx.user
+      const { userId } = input
 
       const [createdInvoice] = await ctx.db
         .insert(invoice)

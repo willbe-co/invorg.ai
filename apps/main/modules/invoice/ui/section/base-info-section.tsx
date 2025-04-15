@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Loader2, FileIcon, Download } from "lucide-react"
+import { Loader2, FileIcon, Download, CreditCardIcon, LoaderIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export const BaseInfoSection = ({ id }: { id: string }) => {
@@ -39,30 +39,41 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
       <div className="@6xl:col-span-4 flex flex-col gap-4">
         <Card className="p-3">
           <CardContent className="p-0">
-            <div className="">
-              <div className="text-2xl font-bold">
-                {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
-                  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
-                    .format((invoice.totalAmount / 1000 || 0)) :
-                  '—'}
-              </div>
-              {invoice.invoiceNumber && (
-                <div className="text-sm text-muted-foreground">
-                  #{invoice.invoiceNumber}
+            <div className="flex justify-between items-start">
+              <div className="">
+                <div className="text-2xl font-bold">
+                  {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
+                    new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency || undefined })
+                      .format((invoice.totalAmount / 1000 || 0)) :
+                    '—'}
                 </div>
-              )}
-            </div>
-            <div>
-              {invoice.state && (
-                <Badge
-                  className="mt-2"
-                  variant={invoice.state === "processed" ? "default" :
-                    invoice.state === "error" ? "destructive" : "outline"}
-                >
-                  {invoice.state === "processing" && <Loader2 className="mr-1 h-3 w-3 animate-spin" />}
-                  {invoice.state}
-                </Badge>
-              )}
+                {invoice.invoiceNumber && (
+                  <div className="text-sm text-muted-foreground">
+                    #{invoice.invoiceNumber}
+                  </div>
+                )}
+              </div>
+              <div>
+                {
+                  invoice.state === "processing" &&
+                  <Badge variant={"processing"} >
+                    <LoaderIcon className="animate-spin" />
+                    Processing
+                  </Badge>
+                }
+                {
+                  invoice.state === "duplicated" &&
+                  <Badge variant={"warning"}>
+                    Duplicated
+                  </Badge>
+                }
+                {
+                  invoice.state === "processed" &&
+                  <Badge variant={"success"}>
+                    Validated
+                  </Badge>
+                }
+              </div>
             </div>
             <Separator className="my-3" />
             <div className="flex flex-col gap-3">
@@ -76,6 +87,15 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
                 <div className="font-mono text-sm font-medium text-muted-foreground">Due Date</div>
                 <div className="">
                   {invoice.dueDate ? format(new Date(invoice.dueDate), "MMMM d, yyyy") : '—'}
+                </div>
+              </div>
+              <div className="flex flex-col items-baseline">
+                <div className="font-mono text-sm font-medium text-muted-foreground">Payment Method</div>
+                <div className="flex items-center gap-2">
+                  {invoice.paymentMethod !== "Not specified" &&
+                    <CreditCardIcon className="size-4" />
+                  }
+                  {invoice.paymentMethod}
                 </div>
               </div>
               {invoice.paymentTerms && (

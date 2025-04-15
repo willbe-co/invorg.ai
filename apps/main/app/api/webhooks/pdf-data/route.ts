@@ -47,7 +47,9 @@ export async function POST(req: NextRequest) {
           subtotalAmount: tempRes.data.subtotalAmount || data.subtotalAmount * 1000,
           taxAmount: tempRes.data.taxAmount || data.taxAmount * 1000,
           totalAmount: tempRes.data.totalAmount || data.totalAmount * 1000,
-          vendorId: vendorExists?.id
+          vendorId: vendorExists?.id,
+          paymentMethod: tempRes.data.paymentMethod,
+          currency: data.currency as "USD" || "EUR"
         })
         return NextResponse.json({ error: "Invoice allready exists" }, { status: 400 })
       }
@@ -64,7 +66,9 @@ export async function POST(req: NextRequest) {
       subtotalAmount: data.subtotalAmount * 1000,
       taxAmount: data.taxAmount * 1000,
       totalAmount: data.totalAmount * 1000,
-      vendorId: vendorExists?.id
+      vendorId: vendorExists?.id,
+      paymentMethod: data.paymentMethod,
+      currency: data.currency as "USD" || "EUR"
     })
 
 

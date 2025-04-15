@@ -1,10 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { DEFAULT_LIMIT } from "@/constants"
 import { trpc } from "@/trpc/client"
 import { Suspense } from "react"
-import { toast } from "sonner"
 import { ErrorBoundary } from "react-error-boundary"
 import { InfiniteScroll } from "@/components/infinite-scroll"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -38,8 +36,8 @@ const InvoiceListSectionSuspense = () => {
     end_date: end_date || undefined
   }, {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    // refetchOnMount: true,
-    // refetchOnWindowFocus: false
+    refetchOnMount: true,
+    refetchOnWindowFocus: false
   })
 
   const totalItems = data.pages.reduce((count, page) => count + page.items.length, 0)
@@ -85,7 +83,7 @@ const InvoiceListSectionSuspense = () => {
                     </TableCell>
                     <TableCell className="text-right">
                       {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
-                        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+                        new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency || undefined })
                           .format((invoice.totalAmount / 1000 || 0)) :
                         '—'}
                     </TableCell>
