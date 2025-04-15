@@ -1,4 +1,3 @@
-import { mistral } from "@ai-sdk/mistral"
 import { anthropic } from "@ai-sdk/anthropic"
 import { logger, task, wait } from "@trigger.dev/sdk/v3";
 import { generateObject } from "ai";

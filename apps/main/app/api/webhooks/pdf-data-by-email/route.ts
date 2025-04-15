@@ -12,34 +12,37 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json() as ReqType
 
-    console.log("------------------------------")
-    console.log("from webhook email: ", data)
-    console.log("------------------------------")
-
     const from = data.From
     if (!from) {
       return NextResponse.json({ error: "No email" }, { status: 400 })
     }
+    console.log("From: ", from)
 
     const attachments = data.Attachments
     if (!attachments || attachments.length === 0) {
       return NextResponse.json({ error: "No attachment" }, { status: 400 })
     }
+    console.log("Attachments: ", attachments.length)
 
     const userExist = await trpc.user.getIdByEmail({ email: from })
+    console.log("user: ", userExist)
     const userId = userExist.data.id
+    console.log("userId: ", userId)
 
     for (let i = 0; i < attachments.length; i++) {
       const attach = attachments[i]
 
-      const base64Data = attach.Content.replace(/^data:application\/pdf;base64,/, '')
+      // const base64Data = attach.Content.replace(/^data:application\/pdf;base64,/, '')
 
-      const binaryData = Buffer.from(base64Data, 'base64');
+      const binaryData = Buffer.from(attach.Content, 'base64');
 
-      const fileName = `${userId}/${attach.ContentID}`
+      const fileName = `${userId}/${attach.Name}`
+
       const blob = await put(fileName, binaryData, {
         contentType: 'application/pdf',
-        access: 'public', // or 'private'
+        access: 'public',
+        addRandomSuffix: true,
+        multipart: true,
       });
 
       const docUrl = blob.url
