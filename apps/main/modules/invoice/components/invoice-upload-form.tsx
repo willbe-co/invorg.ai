@@ -201,7 +201,7 @@ export function InvoiceUploadForm({
       {files.length > 0 && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-medium">Ficheiros ({files.length})</h3>
+            <h3 className="text-lg font-medium">Files ({files.length})</h3>
             <div className="flex gap-2">
               <Button
                 variant="outline"

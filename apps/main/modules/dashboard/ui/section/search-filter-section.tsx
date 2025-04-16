@@ -6,9 +6,7 @@ import { ErrorBoundary } from "react-error-boundary"
 import { X } from "lucide-react"
 import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 import { InvoiceDateFilter } from "../../components/invoice-date-filter"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { StateFilter } from "../../components/state-filter"
 
 export const SearchFilterSection = () => {
 
@@ -19,31 +17,14 @@ export const SearchFilterSection = () => {
       </ErrorBoundary>
     </Suspense>
   )
-
 }
 
 const SearchFilterSectionSuspense = () => {
-  const { setParams, vendor_id, vendor, state, start_date, end_date } = useInvoiceFilterParams()
+  const { setParams, vendor_id, vendor_query, state, start_date, end_date } = useInvoiceFilterParams()
 
-  // const [data, query] = trpc.invoice.getMany.useSuspenseInfiniteQuery({
-  //   limit: DEFAULT_LIMIT
-  // }, {
-  //   getNextPageParam: (lastPage) => lastPage.nextCursor
-  // })
-  // const utils = trpc.useUtils()
-  // const create = trpc.invoice.create.useMutation({
-  //   onSuccess: () => {
-  //     toast.success("Invoice created")
-  //     utils.invoice.getMany.invalidate()
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message)
-  //   }
-  // })
-  //
   const clearFilters = () => {
     setParams({
-      vendor: null,
+      vendor_query: null,
       vendor_id: null,
       state: null,
       start_date: null,
@@ -54,13 +35,16 @@ const SearchFilterSectionSuspense = () => {
   return (
     <div className=" flex items-end justify-between">
 
-      <div className="">
+      <div className="flex gap-4 items-end">
         <div className="min-w-72 space-y-2">
           <InvoiceDateFilter />
         </div>
+        <div className="">
+          <StateFilter />
+        </div>
       </div>
       <div className="flex items-center justify-between">
-        {(vendor || vendor_id || state || start_date || end_date) && (
+        {(vendor_query || vendor_id || state || start_date || end_date) && (
           <Button
             variant="ghost"
             size="sm"

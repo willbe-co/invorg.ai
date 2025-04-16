@@ -16,18 +16,14 @@ export async function POST(req: NextRequest) {
     if (!from) {
       return NextResponse.json({ error: "No email" }, { status: 400 })
     }
-    console.log("From: ", from)
 
     const attachments = data.Attachments
     if (!attachments || attachments.length === 0) {
       return NextResponse.json({ error: "No attachment" }, { status: 400 })
     }
-    console.log("Attachments: ", attachments.length)
 
     const userExist = await trpc.user.getIdByEmail({ email: from })
-    console.log("user: ", userExist)
     const userId = userExist.data.id
-    console.log("userId: ", userId)
 
     for (let i = 0; i < attachments.length; i++) {
       const attach = attachments[i]

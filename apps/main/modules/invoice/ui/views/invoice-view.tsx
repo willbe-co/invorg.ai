@@ -9,27 +9,29 @@ type Props = {
 
 export const InvoiceView = ({ id }: Props) => {
   return (
-    <div className="@container flex flex-col gap-y-6">
-      <div className="flex items-start gap-2">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/dashboard" prefetch={true}>
-            <ChevronLeft className="h-4 w-4" />
-            Back
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold">Invoice</h1>
-          <p className="text-xs text-muted-foreground">ID: {id}</p>
+    <div className="">
+      <div className="flex flex-col gap-y-6 px-4 @6xl:px-8">
+        <div className="flex items-start gap-2">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/dashboard" prefetch={true}>
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold">Invoice</h1>
+            <p className="text-xs text-muted-foreground">ID: {id}</p>
+          </div>
         </div>
-      </div>
 
-      {id ? (
-        <BaseInfoSection id={id} />
-      ) : (
-        <div className="rounded-md bg-destructive/10 p-4 text-destructive">
-          No invoice ID provided
-        </div>
-      )}
+        {id ? (
+          <BaseInfoSection id={id} />
+        ) : (
+          <div className="rounded-md bg-destructive/10 p-4 text-destructive">
+            No invoice ID provided
+          </div>
+        )}
+      </div>
     </div>
   )
 }

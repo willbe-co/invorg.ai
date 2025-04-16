@@ -31,7 +31,7 @@ export const InfiniteScroll = ({
   return (
     <div>
       <div ref={targetRef} className="h-1">
-        {hasNextPage ? (
+        {hasNextPage && (
           <Button
             variant="secondary"
             disabled={!hasNextPage || isFetchingNextPage}
@@ -39,9 +39,12 @@ export const InfiniteScroll = ({
           >
             {isFetchingNextPage ? "Loading..." : "Load more"}
           </Button>
-        ) : (
-          <div className="text-xs text-muted-foreground py-1">No more data</div>
-        )}
+        )
+          //   : (
+          //   <div className="text-xs text-muted-foreground py-1">All invoices loaded</div>
+          // )
+        }
+
       </div>
     </div>
   )

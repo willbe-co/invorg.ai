@@ -8,14 +8,15 @@ import { InfiniteScroll } from "@/components/infinite-scroll"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import { LoaderIcon } from "lucide-react"
+import { FileIcon, LoaderIcon } from "lucide-react"
 import { format } from "date-fns"
 import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export const InvoiceListSection = () => {
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingSkeleton />}>
       <ErrorBoundary fallback={<div>Error...</div>}>
         <InvoiceListSectionSuspense />
       </ErrorBoundary>
@@ -45,7 +46,7 @@ const InvoiceListSectionSuspense = () => {
 
   return (
     <div>
-      <div className="text-xs pb-2">
+      <div className="text-xs pb-2 px-4 @6xl:px-8">
         <div>
           Showing {totalItems} {isFiltering ? "filtered" : ""} invoices
         </div>
@@ -61,19 +62,27 @@ const InvoiceListSectionSuspense = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-52">Date</TableHead>
+                <TableHead className="w-8"></TableHead>
+                <TableHead className="w-36">Due Date</TableHead>
+                <TableHead className="w-36">Uploaded Date</TableHead>
                 <TableHead className="">Vendor</TableHead>
                 <TableHead className="">Contact email</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
-                <TableHead className="w-32 text-center">State</TableHead>
+                <TableHead className="w-32 text-center @6xl:pr-8">State</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.pages.flatMap((page) => page.items).map((invoice, index) => (
                 <Link href={`/invoice/${invoice.id}`} key={invoice.id + index} legacyBehavior prefetch={true}>
                   <TableRow className="cursor-pointer">
+                    <TableCell className="py-4 pl-4 @6xl:pl-8">
+                      <FileIcon strokeWidth={1} />
+                    </TableCell>
                     <TableCell>
-                      {format(invoice.dueDate, "PPP")}
+                      {format(invoice.dueDate, "PP")}
+                    </TableCell>
+                    <TableCell>
+                      {format(invoice.createdAt, "PP")}
                     </TableCell>
                     <TableCell>
                       {invoice.vendor?.name}
@@ -87,7 +96,7 @@ const InvoiceListSectionSuspense = () => {
                           .format((invoice.totalAmount / 1000 || 0)) :
                         '—'}
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center pr-4 @6xl:pr-8">
                       {
                         invoice.state === "processing" &&
                         <Badge variant={"processing"} >
@@ -116,11 +125,67 @@ const InvoiceListSectionSuspense = () => {
         )}
       </div>
       {/* {JSON.stringify(data)} */}
-      <InfiniteScroll
-        hasNextPage={query.hasNextPage}
-        isFetchingNextPage={query.isFetchingNextPage}
-        fetchNextPage={query.fetchNextPage}
-      />
+      <div className="px-4 @6xl:px-8 py-1">
+        <InfiniteScroll
+          hasNextPage={query.hasNextPage}
+          isFetchingNextPage={query.isFetchingNextPage}
+          fetchNextPage={query.fetchNextPage}
+        />
+      </div>
+    </div>
+  )
+}
+
+const LoadingSkeleton = () => {
+  return (
+    <div>
+      <div className="text-xs pb-2 px-4 @6xl:px-8">
+        <div>
+          Loading...
+        </div>
+      </div>
+      <div className="border-y">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-8"></TableHead>
+              <TableHead className="w-36">Due Date</TableHead>
+              <TableHead className="w-36">Uploaded Date</TableHead>
+              <TableHead className="">Vendor</TableHead>
+              <TableHead className="">Contact email</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="w-32 text-center @6xl:pr-8">State</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[...Array(6)].map((_, index) => (
+              <TableRow className="cursor-pointer" key={index}>
+                <TableCell className="py-4 pl-4 @6xl:pl-8">
+                  <FileIcon strokeWidth={1} />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-32 h-7" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-32 h-7" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-52 h-7" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-32 h-7" />
+                </TableCell>
+                <TableCell className="">
+                  <Skeleton className="w-20 h-7 pt-2 ml-auto" />
+                </TableCell>
+                <TableCell className="text-center pr-4 @6xl:pr-8">
+                  <Skeleton className="w-24 h-7" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }
