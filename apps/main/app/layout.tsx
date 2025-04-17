@@ -21,8 +21,53 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "Home | invorg.ai",
+  title: "Invorg | Invoice organizer",
   description: "Invoice organization made simple",
+  twitter: {
+    title: "Invorg | Invoice organizer",
+    description:
+      "Let AI help you, keeping all your invoices organized in one place",
+    images: [
+      {
+        url: "https://invorg.app/invorg-og.jpg",
+        width: 800,
+        height: 600,
+      },
+      {
+        url: "https://invorg.app/invorg-og.jpg",
+        width: 1800,
+        height: 1600,
+      },
+    ],
+  },
+  openGraph: {
+    title: "Invorg | Invoice organizer",
+    description:
+      "Let AI help you, keeping all your invoices organized in one place",
+    url: "https://invorg.app",
+    siteName: "Invorg",
+    images: [
+      {
+        url: "https://invorg.app/invorg-og.jpg",
+        width: 800,
+        height: 600,
+      },
+      {
+        url: "https://invorg.app/invorg-og.jpg",
+        width: 1800,
+        height: 1600,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

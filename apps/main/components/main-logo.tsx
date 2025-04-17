@@ -1,5 +1,4 @@
 export const MainLogo = () => {
-  // width="200" height="56" 
   return (
     <svg viewBox="0 0 200 56" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M197.449 29V9H199.278V29H197.449Z" fill="#F4F4F4" />
