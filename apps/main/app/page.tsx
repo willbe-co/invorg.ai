@@ -37,7 +37,11 @@ export default function Home() {
               to Manage Your Invoices
             </div>
             <div className="font-grotesk font-normal text-xl lg:text-2xl text-[#ffffff] mb-12">Forward email or Upload and let AI do the rest.</div>
-            <Button variant="cta">Get started for free</Button>
+            <Button variant="cta" asChild>
+              <Link href="/sign-up">
+                Get started for free
+              </Link>
+            </Button>
           </div>
           <div className="hidden lg:block lg:col-span-6">
             <Spline
