@@ -27,7 +27,7 @@ export const InvoiceDateFilter = () => {
       <DateRangePicker
         value={dateRange}
         onChange={handleDateRangeChange}
-        calendarLabel="Filter by date range"
+        calendarLabel="Filter by due date"
         placeholder="Select date range"
       />
     </div>

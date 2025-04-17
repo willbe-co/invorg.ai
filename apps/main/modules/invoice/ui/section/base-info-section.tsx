@@ -8,8 +8,10 @@ import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Loader2, FileIcon, Download, CreditCardIcon, LoaderIcon } from "lucide-react"
+import { Loader2, FileIcon, Download, CreditCardIcon, LoaderIcon, LinkIcon, ExternalLinkIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export const BaseInfoSection = ({ id }: { id: string }) => {
   const { data, isLoading, error } = trpc.invoice.getOne.useQuery({ id })
@@ -37,7 +39,7 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
   return (
     <div className="grid gap-4 @6xl:grid-cols-12">
       <div className="@6xl:col-span-4 flex flex-col gap-4">
-        <Card className="p-3">
+        <Card className="p-4">
           <CardContent className="p-0">
             <div className="flex justify-between items-start">
               <div className="">
@@ -108,9 +110,24 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
           </CardContent>
         </Card>
 
-        <Card className="p-3">
+        <Card className="p-4 relative">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="ghost" className="absolute right-3 top-3">
+                  <Link href={`/vendor/${invoice.vendorId}`}>
+                    <ExternalLinkIcon className="size-4" />
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Check vendor details</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <CardContent className="p-0">
-            <CardTitle>Vendor</CardTitle>
+            <CardTitle className="flex justify-between">Vendor
+            </CardTitle>
             <div className="my-3" />
             <div className="flex flex-col gap-3">
               <div className="flex flex-col items-baseline">

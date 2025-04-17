@@ -2,6 +2,15 @@ import { trpc } from "@/trpc/server"
 import { NextRequest, NextResponse } from "next/server"
 import { invoiceWebhookSchema } from "@/trigger/job-get-pdf-data"
 import { z } from "zod"
+import Pusher from "pusher"
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
+  secret: process.env.PUSHER_APP_SECRET!,
+  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+  useTLS: true,
+})
 
 const reqSchema = z.object({
   userId: z.string(),
@@ -47,7 +56,7 @@ export async function POST(req: NextRequest) {
             id: res.invoiceId,
             state: "error",
           })
-          return NextResponse.json({ error: "Vendor allready exists, error creating it" }, { status: 400 })
+          return NextResponse.json({ error: "Vendor already exists, error creating it" }, { status: 400 })
         }
 
         vendorExists = vendor
@@ -91,6 +100,7 @@ export async function POST(req: NextRequest) {
       currency: data.currency as "USD" || "EUR"
     })
 
+    await pusher.trigger("update-state-channel", "update-state", {})
 
     return NextResponse.json({ data: invoice })
   } catch (error) {

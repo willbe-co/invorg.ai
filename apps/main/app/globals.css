@@ -163,7 +163,7 @@ animation: gradientPan 12s linear infinite running;
 }
 
 
-.grad-2>div{
+.grad-2>div, .grad-2>li{
   position:relative;
   border-radius:7px;
 }

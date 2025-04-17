@@ -31,9 +31,9 @@ export const VendorInfoSection = ({ id }: { id: string }) => {
   const vendor = data.data
 
   return (
-    <div className="grid gap-4 grid-cols-12 ">
+    <div className="grid grid-cols-12 ">
       <div className="col-span-12 @6xl:col-span-4 flex flex-col gap-4">
-        <Card className="p-3">
+        <Card className="p-4">
           <CardContent className="p-0">
             <div className="flex justify-between items-start">
               <div className="">
@@ -60,75 +60,69 @@ export const VendorInfoSection = ({ id }: { id: string }) => {
           </CardContent>
         </Card>
       </div>
-
-      <div className="col-span-12 @6xl:col-span-8">
-        <Card className="p-3 overflow-clip">
-          <CardContent className="p-0">
-            <div className="flex justify-between items-start">
-              <div className="">
-                <div className="text-2xl font-bold">
-                  Invoices
-                </div>
-              </div>
+      <div className="col-span-12 @6xl:col-span-8 px-4 lg:px-8">
+        <div className="flex justify-between items-start">
+          <div className=" py-4">
+            <div className="text-2xl font-bold">
+              Invoices
             </div>
-            <Separator className="my-3" />
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-8"></TableHead>
-                  <TableHead className="w-36">Due Date</TableHead>
-                  <TableHead className="w-36">Uploaded Date</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead className="w-32 text-center @6xl:pr-8">State</TableHead>
+          </div>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-8"></TableHead>
+              <TableHead className="w-36">Due Date</TableHead>
+              <TableHead className="w-36">Uploaded Date</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="w-32 text-center @6xl:pr-8">State</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.data.invoices.map((invoice, index) => (
+              <Link href={`/invoice/${invoice.id}`} key={invoice.id + index} legacyBehavior prefetch={true}>
+                <TableRow className="cursor-pointer">
+                  <TableCell className="py-4 pl-4 @6xl:pl-8">
+                    <FileIcon strokeWidth={1} />
+                  </TableCell>
+                  <TableCell>
+                    {format(invoice.dueDate, "PP")}
+                  </TableCell>
+                  <TableCell>
+                    {format(invoice.createdAt, "PP")}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
+                      new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency || undefined })
+                        .format((invoice.totalAmount / 1000 || 0)) :
+                      '—'}
+                  </TableCell>
+                  <TableCell className="text-center pr-4 @6xl:pr-8">
+                    {
+                      invoice.state === "processing" &&
+                      <Badge variant={"processing"} >
+                        <LoaderIcon className="animate-spin" />
+                        Processing
+                      </Badge>
+                    }
+                    {
+                      invoice.state === "duplicated" &&
+                      <Badge variant={"warning"}>
+                        Duplicated
+                      </Badge>
+                    }
+                    {
+                      invoice.state === "processed" &&
+                      <Badge variant={"success"}>
+                        Validated
+                      </Badge>
+                    }
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.data.invoices.map((invoice, index) => (
-                  <Link href={`/invoice/${invoice.id}`} key={invoice.id + index} legacyBehavior prefetch={true}>
-                    <TableRow className="cursor-pointer">
-                      <TableCell className="py-4 pl-4 @6xl:pl-8">
-                        <FileIcon strokeWidth={1} />
-                      </TableCell>
-                      <TableCell>
-                        {format(invoice.dueDate, "PP")}
-                      </TableCell>
-                      <TableCell>
-                        {format(invoice.createdAt, "PP")}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
-                          new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency || undefined })
-                            .format((invoice.totalAmount / 1000 || 0)) :
-                          '—'}
-                      </TableCell>
-                      <TableCell className="text-center pr-4 @6xl:pr-8">
-                        {
-                          invoice.state === "processing" &&
-                          <Badge variant={"processing"} >
-                            <LoaderIcon className="animate-spin" />
-                            Processing
-                          </Badge>
-                        }
-                        {
-                          invoice.state === "duplicated" &&
-                          <Badge variant={"warning"}>
-                            Duplicated
-                          </Badge>
-                        }
-                        {
-                          invoice.state === "processed" &&
-                          <Badge variant={"success"}>
-                            Validated
-                          </Badge>
-                        }
-                      </TableCell>
-                    </TableRow>
-                  </Link>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+              </Link>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   )

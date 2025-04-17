@@ -108,7 +108,7 @@ export const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <div className="flex gap-3 w-full">
+        <div className="flex gap-3 w-full items-start">
           <FormField
             control={form.control}
             name="password"
@@ -143,7 +143,7 @@ export const SignUpForm = () => {
           />
         </div>
         {form.formState.errors.root &&
-          <Alert variant="destructive" className="bg-red-50 border-red-300 ">
+          <Alert variant="destructive" className="bg-red-800/20 border-red-900 ">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Authentication error</AlertTitle>
             <AlertDescription>

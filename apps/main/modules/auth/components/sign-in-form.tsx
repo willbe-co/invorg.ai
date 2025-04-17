@@ -109,7 +109,7 @@ export const SignInForm = () => {
           )}
         />
         {form.formState.errors.root &&
-          <Alert variant="destructive" className="bg-red-50 border-red-300 ">
+          <Alert variant="destructive" className="bg-red-800/20 border-red-900 ">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Authentication error</AlertTitle>
             <AlertDescription>

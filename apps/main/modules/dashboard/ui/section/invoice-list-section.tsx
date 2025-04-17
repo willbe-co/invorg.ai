@@ -2,7 +2,7 @@
 
 import { DEFAULT_LIMIT } from "@/constants"
 import { trpc } from "@/trpc/client"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 import { InfiniteScroll } from "@/components/infinite-scroll"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -12,6 +12,8 @@ import { FileIcon, LoaderIcon, TriangleAlert, UploadIcon } from "lucide-react"
 import { format } from "date-fns"
 import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 import { Skeleton } from "@/components/ui/skeleton"
+import pusherClient from "@/lib/pusher"
+import { useRouter } from "next/navigation"
 
 export const InvoiceListSection = () => {
 
@@ -27,6 +29,7 @@ export const InvoiceListSection = () => {
 
 const InvoiceListSectionSuspense = () => {
   const { setParams, vendor_id, vendor_query, state, start_date, end_date } = useInvoiceFilterParams()
+  const router = useRouter()
 
   const [data, query] = trpc.invoice.getMany.useSuspenseInfiniteQuery({
     limit: DEFAULT_LIMIT,
@@ -44,6 +47,16 @@ const InvoiceListSectionSuspense = () => {
   const totalItems = data.pages.reduce((count, page) => count + page.items.length, 0)
   const isFiltering = vendor_query || vendor_id || state || start_date || end_date
 
+  useEffect(() => {
+    const channel = pusherClient.subscribe("update-state-channel")
+    channel.bind("update-state", () => {
+      router.refresh()
+    })
+    return () => {
+      pusherClient.unsubscribe("update-state-channel")
+    }
+
+  }, [])
   return (
     <div>
       <div className="text-xs pb-2 px-4 @6xl:px-8">

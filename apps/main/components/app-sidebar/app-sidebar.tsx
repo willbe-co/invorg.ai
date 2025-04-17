@@ -1,10 +1,11 @@
 "use client"
 import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, HeartIcon } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarHeader,
   SidebarMenu,
@@ -92,6 +93,11 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <div className="text-muted-foreground text-xs flex items-center gap-1 justify-center py-1">
+          made with <HeartIcon className="size-3" /> in Barcelos 2025
+        </div>
+      </SidebarFooter>
     </Sidebar>
   )
 }

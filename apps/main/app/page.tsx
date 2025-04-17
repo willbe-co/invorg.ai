@@ -3,10 +3,12 @@ import Spline from '@splinetool/react-spline/next';
 import { MainLogo } from "@/components/main-logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import GridBackground from '@/components/grid-background';
 
 export default function Home() {
   return (
     <div className="w-screen min-h-screen py-8 lg:py-14 flex flex-col space-y-32 lg:space-y-44">
+      <GridBackground />
       <div className="flex flex-col space-y-6 max-w-[1330px] mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between">
           <div className='w-[200px] h-[55px]'>
@@ -100,66 +102,68 @@ export default function Home() {
               <h2 className='font-grotesk font-bold text-4xl lg:text-5xl text-white'>How it works</h2>
             </div>
             <div className='lg:col-span-1'></div>
-            <div className='lg:col-span-8 bg-card px-5 py-5 lg:py-12 rounded-[8px]'>
-              <ul className='w-full max-w-[430px] mx-auto flex flex-col space-y-10'>
-                <li className='flex gap-2 items-baseline'>
-                  <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
-                    1.
-                  </div>
-                  <div className='flex-1 flex flex-col gap-3'>
-                    <div className='font-grotesk font-medium text-2xl text-white'>
-                      Receive an invoice
+            <div className='lg:col-span-8 bg-card relative  rounded-[8px] grad-3'>
+              <div className='w-full h-full bg-card px-5 py-5 lg:py-12'>
+                <ul className='w-full max-w-[430px] mx-auto bg-card flex flex-col space-y-10'>
+                  <li className='flex gap-2 items-baseline'>
+                    <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
+                      1.
                     </div>
-                    <div className='font-light text-[#d6d6d6] leading-[22px]'>
-                      Got a new invoice in your inbox or saved as a PDF? You're ready to go.
+                    <div className='flex-1 flex flex-col gap-3'>
+                      <div className='font-grotesk font-medium text-2xl text-white'>
+                        Receive an invoice
+                      </div>
+                      <div className='font-light text-[#d6d6d6] leading-[22px]'>
+                        Got a new invoice in your inbox or saved as a PDF? You're ready to go.
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li className='flex gap-2 items-baseline'>
-                  <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
-                    2.
-                  </div>
-                  <div className='flex-1 flex flex-col gap-3'>
-                    <div className='font-grotesk font-medium text-2xl text-white'>
-                      Send it to Invorg.
+                  </li>
+                  <li className='flex gap-2 items-baseline'>
+                    <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
+                      2.
                     </div>
-                    <div className='font-light text-[#d6d6d6] leading-[22px]'>
-                      Forward the email to invoice@mail.invorg.app or upload the invoice directly.
+                    <div className='flex-1 flex flex-col gap-3'>
+                      <div className='font-grotesk font-medium text-2xl text-white'>
+                        Send it to invorg
+                      </div>
+                      <div className='font-light text-[#d6d6d6] leading-[22px]'>
+                        Forward the email to invoice@mail.invorg.app or upload the invoice directly.
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li className='flex gap-2 items-baseline'>
-                  <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
-                    3.
-                  </div>
-                  <div className='flex-1 flex flex-col gap-3'>
-                    <div className='font-grotesk font-medium text-2xl text-white'>
-                      Let the AI take over
+                  </li>
+                  <li className='flex gap-2 items-baseline'>
+                    <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
+                      3.
                     </div>
-                    <div className='font-light text-[#d6d6d6] leading-[22px]'>
-                      Invorg extracts the key information, organizes your invoices, and gives you instant insights.
+                    <div className='flex-1 flex flex-col gap-3'>
+                      <div className='font-grotesk font-medium text-2xl text-white'>
+                        Let AI take over
+                      </div>
+                      <div className='font-light text-[#d6d6d6] leading-[22px]'>
+                        Invorg extracts the key information, organizes your invoices, and gives you instant insights.
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li className='flex gap-2 items-baseline'>
-                  <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
-                    4.
-                  </div>
-                  <div className='flex-1 flex flex-col gap-3'>
-                    <div className='font-grotesk font-medium text-2xl text-white'>
-                      Access everything online
+                  </li>
+                  <li className='flex gap-2 items-baseline'>
+                    <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
+                      4.
                     </div>
-                    <div className='font-light text-[#d6d6d6] leading-[22px]'>
-                      Log in anytime to view, filter, and menage your invoices.
+                    <div className='flex-1 flex flex-col gap-3'>
+                      <div className='font-grotesk font-medium text-2xl text-white'>
+                        Access everything online
+                      </div>
+                      <div className='font-light text-[#d6d6d6] leading-[22px]'>
+                        Log in anytime to view, filter, and menage your invoices.
+                      </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <footer className='border-t border-[#7F7C7C] '>
+      <footer className='border-t border-muted '>
         <div className='max-w-[1330px] mx-auto  px-4 lg:px-6 pt-16'>
           {/* <div className='flex items-center justify-between'> */}
           <div className='grid lg:grid-cols-12 w-full items-center gap-4'>
@@ -170,8 +174,8 @@ export default function Home() {
             </div>
             <div className='lg:col-span-1'></div>
 
-            <div className='lg:col-span-8 bg-card rounded-[8px] p-4 lg:p-10 '>
-              <div className='flex flex-col lg:flex-row justify-start lg:justify-between lg:items-end gap-6'>
+            <div className='lg:col-span-8 bg-card rounded-[8px]  grad-3 relative'>
+              <div className='flex flex-col lg:flex-row bg-card justify-start p-4 lg:p-10 lg:justify-between lg:items-end gap-6'>
                 <div className='flex flex-col gap-3'>
                   <div className='font-grotesk font-medium text-2xl text-white'>
                     Get started in minutes

@@ -8,7 +8,7 @@ import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Dashboard | invorg.ai",
-  description: "Invoice organizer",
+  description: "Invoice organization made simple",
 };
 
 export default async function RootLayout({
