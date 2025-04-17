@@ -29,9 +29,14 @@ export const metadata: Metadata = {
       "Let AI help you, keeping all your invoices organized in one place",
     images: [
       {
+        url: "https://invorg.app/invorg-og-small.jpg",
+        width: 360,
+        height: 270,
+      },
+      {
         url: "https://invorg.app/invorg-og.jpg",
-        width: 1200,
-        height: 630,
+        width: 600,
+        height: 315,
       },
       {
         url: "https://invorg.app/invorg-og.jpg",
@@ -48,9 +53,14 @@ export const metadata: Metadata = {
     siteName: "Invorg",
     images: [
       {
+        url: "https://invorg.app/invorg-og-small.jpg",
+        width: 360,
+        height: 270,
+      },
+      {
         url: "https://invorg.app/invorg-og.jpg",
-        width: 1200,
-        height: 630,
+        width: 600,
+        height: 315,
       },
       {
         url: "https://invorg.app/invorg-og.jpg",
