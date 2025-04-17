@@ -69,9 +69,14 @@ export const jobGetPdfData = task({
 
     logger.info(JSON.parse(JSON.stringify(result.object)))
 
+    const myHeaders = new Headers()
+    myHeaders.append("Content-Type", "application/json")
+    myHeaders.append("x-webhook-token", process.env.WEBHOOK_SECRET_TOKEN!)
+
     await fetch(process.env.PDF_DATA_WEBHOOK!,
       {
         method: "post",
+        headers: myHeaders,
         body: JSON.stringify({
           userId,
           invoiceId,

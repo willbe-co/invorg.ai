@@ -1,5 +1,5 @@
 import { invoice, invoiceInsertSchema, invoiceUpdateSchema } from "@/db/schemas/invoice";
-import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { createTRPCRouter, protectedProcedure, remoteProcedure } from "@/trpc/init";
 import { z } from "zod";
 
 import { and, desc, eq, gte, lt, lte, or, SQL } from "drizzle-orm";
@@ -147,7 +147,7 @@ export const invoicesRouter = createTRPCRouter({
       return { data };
     }),
 
-  getByInvoiceNumber: baseProcedure
+  getByInvoiceNumber: remoteProcedure
     .input(z.object({
       invoiceNumber: z.string(),
       userId: z.string()
@@ -183,11 +183,7 @@ export const invoicesRouter = createTRPCRouter({
       return { data };
     }),
 
-  // create: protectedProcedure
-  //   .input(invoiceInsertSchema)
-  //   .mutation(async ({ ctx, input }) => {
-  //     const { id: userId } = ctx.user
-  create: baseProcedure
+  create: protectedProcedure
     .input(invoiceInsertSchema)
     .mutation(async ({ ctx, input }) => {
       const { userId } = input
@@ -205,10 +201,9 @@ export const invoicesRouter = createTRPCRouter({
       }
     }),
 
-  update: baseProcedure
+  update: remoteProcedure
     .input(invoiceUpdateSchema)
     .mutation(async ({ ctx, input }) => {
-
       if (!input || !input.id)
         throw new TRPCError({ code: "BAD_REQUEST" })
 

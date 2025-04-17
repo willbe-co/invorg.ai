@@ -1,5 +1,5 @@
 import { vendor, vendorSelectSchema, vendorInsertSchema, vendorUpdateSchema } from "@/db/schemas/vendor";
-import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { baseProcedure, createTRPCRouter, protectedProcedure, remoteProcedure } from "@/trpc/init";
 import { z } from "zod";
 
 import { and, desc, eq, lt, or } from "drizzle-orm";
@@ -87,7 +87,7 @@ export const vendorsRouter = createTRPCRouter({
       };
     }),
 
-  getByName: baseProcedure
+  getByName: remoteProcedure
     .input(z.object({
       name: z.string(),
       userId: z.string()
@@ -100,7 +100,7 @@ export const vendorsRouter = createTRPCRouter({
       return { data };
     }),
 
-  create: baseProcedure
+  create: remoteProcedure
     .input(vendorInsertSchema)
     .mutation(async ({ ctx, input }) => {
       // const { id: userId } = ctx.user
@@ -116,7 +116,7 @@ export const vendorsRouter = createTRPCRouter({
       }
     }),
 
-  update: baseProcedure
+  update: remoteProcedure
     .input(vendorUpdateSchema)
     .mutation(async ({ ctx, input }) => {
 

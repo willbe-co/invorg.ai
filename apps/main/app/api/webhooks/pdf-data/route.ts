@@ -2,9 +2,6 @@ import { trpc } from "@/trpc/server"
 import { NextRequest, NextResponse } from "next/server"
 import { invoiceWebhookSchema } from "@/trigger/job-get-pdf-data"
 import { z } from "zod"
-import { revalidatePath } from "next/cache"
-import { revalidateTag } from "next/cache"
-import { broadcastUpdate } from "../../broadcast-updates/route"
 
 const reqSchema = z.object({
   userId: z.string(),
@@ -20,7 +17,15 @@ export async function POST(req: NextRequest) {
 
     const data = res.data
 
-    console.log("from webhook: ", data)
+    const reqHeaders = req.headers
+
+    const headerToken = reqHeaders.get("x-webhook-token")
+    if (!headerToken) {
+      return NextResponse.json({ error: "no token" }, { status: 401 })
+    }
+    if (headerToken !== process.env.WEBHOOK_SECRET_TOKEN) {
+      return NextResponse.json({ error: "token invalid" }, { status: 401 })
+    }
 
     let vendorExists = null
     if (data.vendor && data.vendor.name) {

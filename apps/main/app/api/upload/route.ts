@@ -50,6 +50,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ data: invoice })
   } catch (error) {
     console.error("Error uploading file:", error)
-    return NextResponse.json({ error: "Error uploading file" }, { status: 500 })
+    return NextResponse.json({ error: "Error uploading file" }, { status: 501 })
   }
 }

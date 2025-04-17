@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
-import { auth, getSession } from "./lib/auth";
+import { getSession } from "./lib/auth";
 import { headers } from "next/headers";
 
 const protectedRoutes = [
   "/dashboard",
-  "/archive"
+  "/upload",
+  "/vendor",
+  "reports"
 ]
 
 const onlyPublicRoutes = [
@@ -20,7 +22,7 @@ export async function middleware(req: NextRequest) {
   const cookies = getSessionCookie(req);
 
   if (!cookies && isProtecteRoute) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   const session = await getSession({
@@ -28,7 +30,7 @@ export async function middleware(req: NextRequest) {
   })
 
   if (!session && isProtecteRoute) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   if (session && isOnlyPublicRoute) {
