@@ -29,7 +29,7 @@ export const AppSidebarProvider = ({
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "17rem",
+          "--sidebar-width": "15rem",
         } as React.CSSProperties
       }
     >

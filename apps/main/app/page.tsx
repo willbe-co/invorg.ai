@@ -39,11 +39,12 @@ export default function Home() {
             <div className="font-grotesk font-normal text-xl lg:text-2xl text-[#ffffff] mb-12">Forward email or Upload and let AI do the rest.</div>
             <Button variant="cta">Get started for free</Button>
           </div>
-          {/* <div className="lg:col-span-6"> */}
-          {/*   <Spline */}
-          {/*     scene="https://prod.spline.design/pONb5aasFhFvLomB/scene.splinecode" */}
-          {/*   /> */}
-          {/* </div> */}
+          <div className="hidden lg:block lg:col-span-6">
+            <Spline
+              scene="https://prod.spline.design/dCJXR5uwg9HmNwAJ/scene.splinecode"
+
+            />
+          </div>
         </div>
         <div className='mb-20 lg:mb-24'  >
           <h2 className="text-2xl lg:text-3xl font-grotesk font-bold text-white lg:text-center mb-6">AI That Understands Invoices</h2>

@@ -17,6 +17,7 @@ export const AuthButton = () => {
   //     <Button disabled={isPending}>Login</Button>
   //   )
   // }
+
   return (
     <Button variant="secondary" disabled={isPending} onClick={() => signOut({
       fetchOptions: {

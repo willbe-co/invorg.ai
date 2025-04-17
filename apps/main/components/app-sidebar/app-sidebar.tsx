@@ -78,7 +78,7 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                   {item.title}
                 </div>
                 {item.items?.length ? (
-                  <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                  <SidebarMenuSub className="mx-0 border-l-0 px-1.5">
                     {item.items.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild isActive={pathname === item.url}>
