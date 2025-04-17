@@ -30,18 +30,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://invorg.app/invorg-og-small.jpg",
-        width: 360,
-        height: 270,
-      },
-      {
-        url: "https://invorg.app/invorg-og.jpg",
-        width: 600,
-        height: 315,
-      },
-      {
-        url: "https://invorg.app/invorg-og.jpg",
-        width: 1200,
-        height: 630,
+        width: 800,
+        height: 600,
       },
     ],
   },
@@ -54,18 +44,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://invorg.app/invorg-og-small.jpg",
-        width: 360,
-        height: 270,
-      },
-      {
-        url: "https://invorg.app/invorg-og.jpg",
-        width: 600,
-        height: 315,
-      },
-      {
-        url: "https://invorg.app/invorg-og.jpg",
-        width: 1200,
-        height: 630,
+        width: 800,
+        height: 600,
       },
     ],
     locale: "en_US",
