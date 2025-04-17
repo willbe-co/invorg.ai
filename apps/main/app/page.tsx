@@ -7,7 +7,7 @@ import GridBackground from '@/components/grid-background';
 
 export default function Home() {
   return (
-    <div className="w-screen min-h-screen py-8 lg:py-14 flex flex-col space-y-32 lg:space-y-44">
+    <div className="w-screen min-h-screen py-8 lg:py-14 flex flex-col space-y-32 lg:space-y-44 overflow-x-hidden">
       <GridBackground />
       <div className="flex flex-col space-y-6 max-w-[1330px] mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between">
@@ -53,7 +53,7 @@ export default function Home() {
           </p>
         </div>
         <div className='mb-32 lg:mb-56'>
-          <ul className='grid sm:grid-cols-2 xl:grid-cols-4 gap-5'>
+          <ul className='grid sm:grid-cols-2 xl:grid-cols-4 gap-12 sm:gap-8 xl:gap-6'>
             <li className="h-80 relative grad-1 rounded-[8px]"
             >
               <div className='flex flex-col justify-center items-start h-full px-4 bg-card'>
@@ -78,7 +78,7 @@ export default function Home() {
             <li className='rounded-[8px] grad-3 h-80 relative'>
               <div className='flex flex-col justify-center items-start h-full px-4 bg-card '>
                 <h3 className='font-grotesk text-2xl text-white mb-8'>
-                  Organizes Automatically
+                  Automatically Sorts
                 </h3>
                 <p className='font-light text-[#d6d6d6]'>
                   Invoices are categorized and sorted in your dashboard — no manual tagging or folders needed.
