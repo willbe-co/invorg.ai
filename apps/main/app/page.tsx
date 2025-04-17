@@ -7,11 +7,11 @@ import GridBackground from '@/components/grid-background';
 
 export default function Home() {
   return (
-    <div className="w-screen min-h-screen py-8 lg:py-14 flex flex-col space-y-32 lg:space-y-44 overflow-x-hidden">
+    <div className="w-full min-h-screen pt-8 lg:pt-14 flex flex-col space-y-32 lg:space-y-44 overflow-x-hidden">
       <GridBackground />
       <div className="flex flex-col space-y-6 max-w-[1330px] mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between">
-          <div className='w-[200px] h-[55px]'>
+          <div className='w-[150px] lg:w-[200px] h-[55px]'>
             <Link href="/">
               <MainLogo />
             </Link>
@@ -41,8 +41,8 @@ export default function Home() {
           </div>
           <div className="hidden lg:block lg:col-span-6">
             <Spline
-              scene="https://prod.spline.design/dCJXR5uwg9HmNwAJ/scene.splinecode"
-
+              // scene="https://prod.spline.design/dCJXR5uwg9HmNwAJ/scene.splinecode"
+              scene="https://prod.spline.design/AA91heB6ZeBa4m0F/scene.splinecode"
             />
           </div>
         </div>
@@ -164,8 +164,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <footer className='border-t border-muted '>
-        <div className='max-w-[1330px] mx-auto  px-4 lg:px-6 pt-16'>
+      <footer className='border-t border-muted mb-4'>
+        <div className='max-w-[1330px] mx-auto  px-4 lg:px-6 pt-16 flex flex-col gap-8'>
           {/* <div className='flex items-center justify-between'> */}
           <div className='grid lg:grid-cols-12 w-full items-center gap-4'>
             <div className='max-w-[220px] lg:max-w-full lg:col-span-3'>
@@ -190,6 +190,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className='w-full flex justify-center items-end'>
+            <div className='text-muted-foreground text-xs'>© 2025 invorg.app - Invoice organization made simple.</div>
           </div>
         </div>
       </footer>

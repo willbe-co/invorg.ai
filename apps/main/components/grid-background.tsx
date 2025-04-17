@@ -159,7 +159,7 @@ export default function GridBackground() {
         // Draw subtle glow effect
         const glow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, point.size * 2)
         glow.addColorStop(0, point.color)
-        glow.addColorStop(1, "rgba(0, 0, 0, 0)")
+        glow.addColorStop(0.7, "rgba(0, 0, 0, 0)")
 
         ctx.beginPath()
         ctx.arc(point.x, point.y, point.size * 2, 0, Math.PI * 2)
