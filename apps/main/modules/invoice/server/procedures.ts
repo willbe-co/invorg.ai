@@ -183,7 +183,7 @@ export const invoicesRouter = createTRPCRouter({
       return { data };
     }),
 
-  // TODO: fix this
+  // TODO: fix this one for email creation and other for client
   create: baseProcedure
     .input(invoiceInsertSchema)
     .mutation(async ({ ctx, input }) => {
