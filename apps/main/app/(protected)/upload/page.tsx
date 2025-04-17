@@ -27,7 +27,7 @@ export default async function UploadPage() {
                 <div className="relative text-xs lg:text-base">
                   Did you know you can also upload invoices by email? Just forward the invoicing email to
                   <span className="inline-flex gap-1 mx-2 items-center border-b border-muted-foreground ">
-                    <MailIcon size={16} /><span className="bg-blue-100"> invoice@invorg.app</span>
+                    <MailIcon size={16} /><span className="bg-blue-800 text-blue-50"> invoice@invorg.app</span>
                   </span>
                 </div>
               </div>

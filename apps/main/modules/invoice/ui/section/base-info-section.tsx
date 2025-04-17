@@ -35,7 +35,7 @@ export const BaseInfoSection = ({ id }: { id: string }) => {
   const invoice = data.data
 
   return (
-    <div className="grid gap-4 @6xl:grid-cols-12 ">
+    <div className="grid gap-4 @6xl:grid-cols-12">
       <div className="@6xl:col-span-4 flex flex-col gap-4">
         <Card className="p-3">
           <CardContent className="p-0">

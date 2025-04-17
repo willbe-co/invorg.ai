@@ -145,7 +145,6 @@
 }
 
 .grad-1>div{
-  background:#282727;
   position:relative;
   border-radius:7px;
 }
@@ -165,7 +164,6 @@ animation: gradientPan 12s linear infinite running;
 
 
 .grad-2>div{
-  background:#282727;
   position:relative;
   border-radius:7px;
 }
@@ -184,7 +182,6 @@ animation: gradientPan 18s linear infinite running;
 }
 
 .grad-3>div{
-  background:#282727;
   position:relative;
   border-radius:7px;
 }
@@ -203,7 +200,6 @@ animation: gradientPan 14s linear infinite running;
 }
 
 .grad-4>div{
-  background:#282727;
   position:relative;
   border-radius:7px;
 }

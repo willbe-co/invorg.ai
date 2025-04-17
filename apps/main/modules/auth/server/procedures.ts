@@ -47,15 +47,17 @@ export const usersRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND", message: "Email not found" })
       }
 
-      const invoicesRemaining = Math.max(0, parseInt(userExists.invoicesRemaining) - 1)
+      const invoicesRemaining = parseInt(userExists.invoicesRemaining) - 1
 
-      if (invoicesRemaining === 0) {
+      if (invoicesRemaining < 0) {
         throw new TRPCError({ code: "SERVICE_UNAVAILABLE", message: "No upload remaining" })
       }
+
       const [userUpdated] = await ctx.db.update(user)
         .set({ invoicesRemaining: invoicesRemaining.toString() })
         .where(eq(user.id, input.id))
         .returning()
+
 
       return (userUpdated)
     })

@@ -43,9 +43,7 @@ export async function POST(request: Request) {
     })
 
 
-    // TODO: fazer queu de uploads...
-
-    const bgJob = await tasks.trigger<typeof jobGetPdfData>(
+    await tasks.trigger<typeof jobGetPdfData>(
       "get-pdf-data", { docUrl: blob.url, userId: session.user.id, invoiceId: invoice.id }
     )
 

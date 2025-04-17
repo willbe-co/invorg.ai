@@ -18,11 +18,11 @@ const badgeVariants = cva(
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         success:
-          "border-1 bg-green-100 border-green-400 text-green-700 font-mono",
+          "border-1 bg-green-800/40 border-green-800 text-green-100 font-mono",
         processing:
-          "border-1 bg-cyan-100 border-cyan-400 text-cyan-700 font-mono ",
+          "border-1 bg-cyan-800/40 border-cyan-800 text-cyan-100 font-mono ",
         warning:
-          "border-1 bg-amber-100 border-amber-400 text-amber-700 font-mono ",
+          "border-1 bg-amber-800/40 border-amber-800 text-amber-100 font-mono ",
       },
     },
     defaultVariants: {

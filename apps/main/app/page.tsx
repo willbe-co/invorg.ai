@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-myblack w-screen min-h-screen py-8 lg:py-14 flex flex-col space-y-32 lg:space-y-44">
+    <div className="w-screen min-h-screen py-8 lg:py-14 flex flex-col space-y-32 lg:space-y-44">
       <div className="flex flex-col space-y-6 max-w-[1330px] mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between">
           <div className='w-[200px] h-[55px]'>
@@ -15,12 +15,12 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex gap-4">
-            <Button asChild variant="cta">
+            <Button asChild variant="secondary">
               <Link href="/sign-in" prefetch={true}>
                 Sign In
               </Link>
             </Button>
-            <Button asChild className='hidden lg:block'  >
+            <Button asChild>
               <Link href="/sign-up" prefetch={true}>
                 Sign Up
               </Link>
@@ -53,7 +53,7 @@ export default function Home() {
           <ul className='grid sm:grid-cols-2 xl:grid-cols-4 gap-5'>
             <li className="h-80 relative grad-1 rounded-[8px]"
             >
-              <div className='flex flex-col justify-center items-start h-full px-4'>
+              <div className='flex flex-col justify-center items-start h-full px-4 bg-card'>
                 <h3 className='font-grotesk text-2xl text-white mb-8'>Auto-Extract Key Data</h3>
                 <p className='font-light text-[#d6d6d6]'>
                   Our AI captures the essential details — invoice number, total amount, due date, supplier name — all within seconds.
@@ -63,7 +63,7 @@ export default function Home() {
 
             </li>
             <li className='rounded-[8px] grad-2 h-80 relative'>
-              <div className='flex flex-col justify-center items-start h-full px-4'>
+              <div className='flex flex-col justify-center items-start h-full px-4 bg-card'>
                 <h3 className='font-grotesk text-2xl text-white mb-8'>
                   Understands Context
                 </h3>
@@ -73,7 +73,7 @@ export default function Home() {
               </div>
             </li>
             <li className='rounded-[8px] grad-3 h-80 relative'>
-              <div className='flex flex-col justify-center items-start h-full px-4'>
+              <div className='flex flex-col justify-center items-start h-full px-4 bg-card '>
                 <h3 className='font-grotesk text-2xl text-white mb-8'>
                   Organizes Automatically
                 </h3>
@@ -83,7 +83,7 @@ export default function Home() {
               </div>
             </li>
             <li className='rounded-[8px] grad-4 h-80 relative'>
-              <div className='flex flex-col justify-center items-start h-full px-4'>
+              <div className='flex flex-col justify-center items-start h-full px-4 bg-card'>
                 <h3 className='font-grotesk text-2xl text-white mb-8'>
                   Access anytime
                 </h3>
@@ -100,7 +100,7 @@ export default function Home() {
               <h2 className='font-grotesk font-bold text-4xl lg:text-5xl text-white'>How it works</h2>
             </div>
             <div className='lg:col-span-1'></div>
-            <div className='lg:col-span-8 bg-[#272626] px-5 py-5 lg:py-12 rounded-[8px]'>
+            <div className='lg:col-span-8 bg-card px-5 py-5 lg:py-12 rounded-[8px]'>
               <ul className='w-full max-w-[430px] mx-auto flex flex-col space-y-10'>
                 <li className='flex gap-2 items-baseline'>
                   <div className='font-grotesk font-bold text-4xl lg:text-5xl text-[#898989] flex-none'>
@@ -170,7 +170,7 @@ export default function Home() {
             </div>
             <div className='lg:col-span-1'></div>
 
-            <div className='lg:col-span-8 bg-[#272626] rounded-[8px] p-4 lg:p-10 '>
+            <div className='lg:col-span-8 bg-card rounded-[8px] p-4 lg:p-10 '>
               <div className='flex flex-col lg:flex-row justify-start lg:justify-between lg:items-end gap-6'>
                 <div className='flex flex-col gap-3'>
                   <div className='font-grotesk font-medium text-2xl text-white'>

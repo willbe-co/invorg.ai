@@ -41,21 +41,16 @@ const UploadsLeftSuspense = ({ id }: Props) => {
   const percentage = (remaining / totalUploads) * 100
 
   const getCardColor = () => {
-    if (remaining === 0) return "bg-red-50 dark:bg-red-950/20"
+    if (remaining === 0) return "bg-red-50 dark:bg-red-950/30"
     if (remaining <= totalUploads * 0.3) return "bg-amber-50 dark:bg-amber-950/20"
-    return "bg-green-50 dark:bg-green-950/20"
-  }
+    return "bg-green-100 dark:bg-green-800/20"
 
-  const getProgressColor = () => {
-    if (remaining === 0) return "bg-red-500"
-    if (remaining <= totalUploads * 0.3) return "bg-amber-500"
-    return "bg-green-500"
   }
 
   const getBorderColor = () => {
-    if (remaining === 0) return "border-red-200 dark:border-red-800/30"
-    if (remaining <= totalUploads * 0.3) return "border-amber-200 dark:border-amber-800/30"
-    return "border-green-300 dark:border-green-800/10"
+    if (remaining === 0) return "border-red-200 dark:border-red-800/40"
+    if (remaining <= totalUploads * 0.3) return "border-amber-200 dark:border-amber-800/40"
+    return "border-green-100 dark:border-green-700/60"
   }
 
   return (
@@ -65,7 +60,7 @@ const UploadsLeftSuspense = ({ id }: Props) => {
           <div className="flex items-center gap-2">
             <Upload
               className={
-                remaining === 0 ? "text-red-500" : remaining <= totalUploads * 0.3 ? "text-amber-500" : "text-green-500"
+                remaining === 0 ? "text-red-400" : remaining <= totalUploads * 0.3 ? "text-amber-500" : "text-green-500"
               }
               size={20}
             />
@@ -82,7 +77,7 @@ const UploadsLeftSuspense = ({ id }: Props) => {
         />
 
         {remaining === 0 && (
-          <div className="mt-3 flex items-center gap-2 text-red-500 text-sm">
+          <div className="mt-3 flex items-center gap-2 text-red-400 text-sm">
             <AlertCircle size={16} />
             <span>You've reached your upload limit</span>
           </div>
