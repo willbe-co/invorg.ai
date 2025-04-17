@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { and, desc, eq, lt, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { invoice } from "@/db/schemas/invoice";
 
 export const vendorsRouter = createTRPCRouter({
   getMany: protectedProcedure
@@ -49,11 +50,41 @@ export const vendorsRouter = createTRPCRouter({
     }))
     .query(async ({ ctx, input }) => {
       const user = ctx.user
-      const [data] = await ctx.db.select()
-        .from(vendor)
-        .where(and(eq(vendor.id, input.id), eq(vendor.userId, user.id)))
 
-      return { data };
+      // Fetch the vendor details
+      const [vendorData] = await ctx.db.select()
+        .from(vendor)
+        .where(and(eq(vendor.id, input.id), eq(vendor.userId, user.id)));
+
+      if (!vendorData) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Vendor not found" });
+      }
+
+      // Fetch related invoices for this vendor
+      const invoices = await ctx.db.select({
+        id: invoice.id,
+        invoiceNumber: invoice.invoiceNumber,
+        documentUrl: invoice.documentUrl,
+        totalAmount: invoice.totalAmount,
+        currency: invoice.currency,
+        state: invoice.state,
+        dueDate: invoice.dueDate,
+        issueDate: invoice.issueDate,
+        createdAt: invoice.createdAt,
+      })
+        .from(invoice)
+        .where(and(
+          eq(invoice.vendorId, input.id),
+          eq(invoice.userId, user.id)
+        ))
+        .orderBy(desc(invoice.issueDate));
+
+      return {
+        data: {
+          ...vendorData,
+          invoices
+        }
+      };
     }),
 
   getByName: baseProcedure

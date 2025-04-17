@@ -3,7 +3,11 @@
 import { trpc } from "@/trpc/client"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2 } from "lucide-react"
+import { FileIcon, Loader2, LoaderIcon } from "lucide-react"
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { format } from "date-fns"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 export const VendorInfoSection = ({ id }: { id: string }) => {
   const { data, isLoading, error } = trpc.vendor.getOne.useQuery({ id })
@@ -60,7 +64,69 @@ export const VendorInfoSection = ({ id }: { id: string }) => {
       <div className="@6xl:col-span-8">
         <Card className="p-3 overflow-clip">
           <CardContent className="p-0">
-            List invoices from this vendor
+            <div className="flex justify-between items-start">
+              <div className="">
+                <div className="text-2xl font-bold">
+                  Invoices
+                </div>
+              </div>
+            </div>
+            <Separator className="my-3" />
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-8"></TableHead>
+                  <TableHead className="w-36">Due Date</TableHead>
+                  <TableHead className="w-36">Uploaded Date</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead className="w-32 text-center @6xl:pr-8">State</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data.data.invoices.map((invoice, index) => (
+                  <Link href={`/invoice/${invoice.id}`} key={invoice.id + index} legacyBehavior prefetch={true}>
+                    <TableRow className="cursor-pointer">
+                      <TableCell className="py-4 pl-4 @6xl:pl-8">
+                        <FileIcon strokeWidth={1} />
+                      </TableCell>
+                      <TableCell>
+                        {format(invoice.dueDate, "PP")}
+                      </TableCell>
+                      <TableCell>
+                        {format(invoice.createdAt, "PP")}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {invoice.totalAmount && ((invoice.totalAmount || 0) > 0) ?
+                          new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency || undefined })
+                            .format((invoice.totalAmount / 1000 || 0)) :
+                          '—'}
+                      </TableCell>
+                      <TableCell className="text-center pr-4 @6xl:pr-8">
+                        {
+                          invoice.state === "processing" &&
+                          <Badge variant={"processing"} >
+                            <LoaderIcon className="animate-spin" />
+                            Processing
+                          </Badge>
+                        }
+                        {
+                          invoice.state === "duplicated" &&
+                          <Badge variant={"warning"}>
+                            Duplicated
+                          </Badge>
+                        }
+                        {
+                          invoice.state === "processed" &&
+                          <Badge variant={"success"}>
+                            Validated
+                          </Badge>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  </Link>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </div>

@@ -1,4 +1,4 @@
-import { pgTable, text, integer, timestamp, boolean, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp, boolean, uniqueIndex, numeric } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2"
 
 const userId = () => `usr_${createId()}`
@@ -14,6 +14,7 @@ export const user = pgTable("user", {
   email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').notNull(),
   image: text('image'),
+  invoicesRemaining: numeric("invoices_remaining").default("10").notNull(),
   createdAt: timestamp('created_at', { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: "date" }).defaultNow().notNull()
 }, (table) => [

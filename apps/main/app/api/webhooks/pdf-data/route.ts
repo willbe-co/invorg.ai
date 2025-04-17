@@ -34,6 +34,15 @@ export async function POST(req: NextRequest) {
           email: data.vendor.contactInfo,
           userId: res.userId
         })
+
+        if (!vendor) {
+          await trpc.invoice.update({
+            id: res.invoiceId,
+            state: "error",
+          })
+          return NextResponse.json({ error: "Vendor allready exists, error creating it" }, { status: 400 })
+        }
+
         vendorExists = vendor
       }
     }
@@ -79,6 +88,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ data: invoice })
   } catch (error) {
     console.error("Error updating invoice:", error)
+
     return NextResponse.json({ error: "Error updating invoice" }, { status: 500 })
   }
 }

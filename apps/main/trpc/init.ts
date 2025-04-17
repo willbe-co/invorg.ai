@@ -51,3 +51,8 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+export const remoteProcedure = t.procedure
+  .use(async function isAuthed({ ctx, next }) {
+    return next({ ctx: { ...ctx } })
+  })

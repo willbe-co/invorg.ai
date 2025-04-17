@@ -33,28 +33,31 @@ const SearchFilterSectionSuspense = () => {
   }
 
   return (
-    <div className=" flex items-end justify-between">
-
+    <div className=" flex items-end gap-4 justify-between">
       <div className="flex gap-4 items-end">
-        <div className="min-w-72 space-y-2">
-          <InvoiceDateFilter />
+        <div className="flex gap-4 items-end">
+          <div className="min-w-72 space-y-2">
+            <InvoiceDateFilter />
+          </div>
         </div>
-        <div className="">
-          <StateFilter />
-        </div>
-      </div>
-      <div className="flex items-center justify-between">
         {(vendor_query || vendor_id || state || start_date || end_date) && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearFilters}
-            className="h-8 gap-1 text-xs"
-          >
-            <X className="h-3.5 w-3.5" />
-            Clear filters
-          </Button>
+          <div className="flex items-center justify-between">
+            <Button
+              variant="secondary"
+              onClick={clearFilters}
+              className="gap-1 text-xs"
+            >
+              <X className="h-3.5 w-3.5" />
+              Clear filters
+            </Button>
+          </div>
         )}
+      </div>
+      <div className="">
+        {/* <StateFilter /> */}
+        <div className="text-xs text-muted-foreground">
+          more filters coming soon...
+        </div>
       </div>
     </div>
   )

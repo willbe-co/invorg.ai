@@ -24,4 +24,17 @@ export const usersRouter = createTRPCRouter({
 
       return ({ data: userExists })
     }),
+  getInvoicesRemaining: baseProcedure
+    .input(z.object({
+      id: z.string()
+    }))
+    .query(async ({ ctx, input }) => {
+      const [userExists] = await ctx.db.select().from(user).where(eq(user.id, input.id))
+      if (!userExists) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Email not found" })
+      }
+      const invoicesRemaining = parseInt(userExists.invoicesRemaining)
+
+      return (invoicesRemaining)
+    })
 })

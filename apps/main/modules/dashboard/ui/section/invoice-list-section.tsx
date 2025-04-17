@@ -8,7 +8,7 @@ import { InfiniteScroll } from "@/components/infinite-scroll"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import { FileIcon, LoaderIcon } from "lucide-react"
+import { FileIcon, LoaderIcon, TriangleAlert, UploadIcon } from "lucide-react"
 import { format } from "date-fns"
 import { useInvoiceFilterParams } from "@/modules/invoice/hooks/use-invoice-filter-params"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -55,8 +55,31 @@ const InvoiceListSectionSuspense = () => {
         {totalItems === 0 ? (
           <div className="py-12 text-center text-muted-foreground">
             {isFiltering ?
-              "No invoices match your filters" :
-              "No invoices found. Upload some invoices to get started."}
+              <div className="flex flex-wrap gap-2 justify-center ">
+                <div className="flex gap-1 items-center">
+                  <TriangleAlert size={16} />
+                  No invoices found.
+                </div>
+              </div>
+              :
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-wrap gap-2 justify-center ">
+                  <div className="flex gap-1 items-center">
+                    <TriangleAlert size={16} />
+                    No invoices found.
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center ">
+                  <div>
+                    Upload invoices
+                  </div>
+                  <Link href="/upload" className="border-b-2 font-semibold flex gap-1 items-center"> <UploadIcon size={16} /> here</Link>
+                  <div>
+                    to get started.
+                  </div>
+                </div>
+              </div>
+            }
           </div>
         ) : (
           <Table>

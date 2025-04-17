@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "invoices_remaining" numeric DEFAULT '10' NOT NULL;
