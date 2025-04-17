@@ -18,8 +18,6 @@ export async function POST(req: NextRequest) {
 
     const data = res.message
 
-
-
     return NextResponse.json({ data: data })
   } catch (error) {
     console.error("Error updating invoice:", error)

@@ -27,6 +27,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "token invalid" }, { status: 401 })
     }
 
+
+
     let vendorExists = null
     if (data.vendor && data.vendor.name) {
       const tempRes = await trpc.vendor.getByName({ name: data.vendor.name, userId: res.userId })

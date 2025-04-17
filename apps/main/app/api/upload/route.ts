@@ -35,6 +35,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "no valid session" })
     }
 
+    await trpc.user.decreaseInvoicesRemaining({ id: session.user.id })
+
     const { invoice } = await trpc.invoice.create({
       userId: session?.user.id,
       documentUrl: blob.url

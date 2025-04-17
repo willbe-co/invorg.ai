@@ -23,7 +23,13 @@ export async function POST(req: NextRequest) {
     }
 
     const userExist = await trpc.user.getIdByEmail({ email: from })
+    if (!userExist) {
+      return NextResponse.json({ error: "No user found" }, { status: 400 })
+    }
+
     const userId = userExist.data.id
+
+    await trpc.user.decreaseInvoicesRemaining({ id: userId })
 
     for (let i = 0; i < attachments.length; i++) {
       const attach = attachments[i]
