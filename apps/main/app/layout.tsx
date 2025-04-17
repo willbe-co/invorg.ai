@@ -30,13 +30,13 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://invorg.app/invorg-og.jpg",
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 630,
       },
       {
         url: "https://invorg.app/invorg-og.jpg",
-        width: 1800,
-        height: 1600,
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://invorg.app/invorg-og.jpg",
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 630,
       },
       {
         url: "https://invorg.app/invorg-og.jpg",
-        width: 1800,
-        height: 1600,
+        width: 1200,
+        height: 630,
       },
     ],
     locale: "en_US",
