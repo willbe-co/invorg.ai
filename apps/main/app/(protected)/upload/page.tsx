@@ -16,15 +16,15 @@ export default async function UploadPage() {
 
   return (
     <div className="flex flex-col gap-y-6">
-      <div className="grid lg:grid-cols-12 gap-4 lg:gap-6 px-4 @6xl:px-8">
-        <div className="col-span-5">
+      <div className="grid lg:grid-cols-12 gap-2 lg:gap-6 px-4 @6xl:px-8">
+        <div className="col-span-12 lg:col-span-5">
           <h1 className="text-2xl font-bold">Upload invoices</h1>
           <p className="text-xs text-muted-foreground mb-4">Upload your invoice documents</p>
           <div className="space-y-2 flex flex-col gap-3 text-muted-foreground">
-            <div className="flex items-start gap-3">
-              <CircleAlertIcon size={20} className="flex-none mt-1 stroke-[1.5px]" />
+            <div className="flex items-start gap-2 lg:gap-3">
+              <CircleAlertIcon className="flex-none mt-1 stroke-[1.5px] size-3" />
               <div className="flex-1">
-                <div className="relative">
+                <div className="relative text-xs lg:text-base">
                   Did you know you can also upload invoices by email? Just forward the invoicing email to
                   <span className="inline-flex gap-1 mx-2 items-center border-b border-muted-foreground ">
                     <MailIcon size={16} /><span className="bg-blue-100"> invoice@invorg.app</span>
@@ -35,8 +35,8 @@ export default async function UploadPage() {
           </div>
         </div>
 
-        <div className="lg:col-span-2"></div>
-        <div className="lg:col-span-5">
+        <div className="col-span-0 lg:col-span-2"></div>
+        <div className="col-span-12 lg:col-span-5">
           <HydrateClient>
             <UploadsLeft id={session.user.id} />
           </HydrateClient>

@@ -9,7 +9,7 @@ type Props = {
 
 export const InvoiceView = ({ id }: Props) => {
   return (
-    <div className="">
+    <div className="pb-4">
       <div className="flex flex-col gap-y-6 px-4 @6xl:px-8">
         <div className="flex items-start gap-2">
           <Button variant="ghost" size="sm" asChild>

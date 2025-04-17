@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { authClient } from "@/lib/auth-client"
+import { LogOutIcon, UserIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
@@ -17,7 +18,7 @@ export const AuthButton = () => {
   //   )
   // }
   return (
-    <Button disabled={isPending} onClick={() => signOut({
+    <Button variant="secondary" disabled={isPending} onClick={() => signOut({
       fetchOptions: {
         onSuccess: () => {
           router.push("/sign-in")
@@ -25,6 +26,7 @@ export const AuthButton = () => {
         }
       }
     })}>
+      <LogOutIcon />
       Logout
     </Button>
   )

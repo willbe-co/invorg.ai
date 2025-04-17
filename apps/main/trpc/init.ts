@@ -54,5 +54,6 @@ export const protectedProcedure = t.procedure
 
 export const remoteProcedure = t.procedure
   .use(async function isAuthed({ ctx, next }) {
+    console.log(ctx)
     return next({ ctx: { ...ctx } })
   })

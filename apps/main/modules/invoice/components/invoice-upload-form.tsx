@@ -181,14 +181,14 @@ export function InvoiceUploadForm({
       <div
         {...getRootProps()}
         className={`
-          border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
+          border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors 
           ${isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/25"}
           ${isDragReject ? "border-destructive bg-destructive/10" : ""}
         `}
       >
         <input {...getInputProps()} />
-        <div className="flex flex-col items-center justify-center gap-2">
-          <Upload className="h-10 w-10 text-muted-foreground" />
+        <div className="flex flex-col items-center justify-center gap-1">
+          <Upload className="h-10 w-10 text-muted-foreground stroke-1 mb-2" />
           <h3 className="text-lg font-medium">{isDragActive ? "Drop files here" : "Drag and drop files here"}</h3>
           <p className="text-sm text-muted-foreground">or click to select files</p>
           <p className="text-xs text-muted-foreground mt-2">

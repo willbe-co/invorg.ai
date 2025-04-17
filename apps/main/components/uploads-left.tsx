@@ -106,8 +106,29 @@ const UploadsLeftSuspense = ({ id }: Props) => {
 
 const LoadingSkeleton = () => {
   return (
-    <div>
-      <Skeleton className="w-7 h-10" />
-    </div>
+
+    <Card className={` border shadow-none`}>
+      <CardContent className="">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <Upload
+              size={20}
+            />
+            <h3 className="font-medium">Trial Uploads</h3>
+          </div>
+          <span className="text-sm font-medium">
+            <Skeleton className="w-10 h-6" />
+          </span>
+        </div>
+
+        <Progress
+          value={100}
+          className="h-2 bg-gray-100 dark:bg-gray-800 opacity-50"
+        />
+        <div className="mt-3 text-500-500 text-sm">
+          <span>Hope you enjoy the app</span>
+        </div>
+      </CardContent>
+    </Card>
   )
 }

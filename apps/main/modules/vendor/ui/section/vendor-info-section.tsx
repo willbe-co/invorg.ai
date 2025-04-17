@@ -31,8 +31,8 @@ export const VendorInfoSection = ({ id }: { id: string }) => {
   const vendor = data.data
 
   return (
-    <div className="grid gap-4 @6xl:grid-cols-12 ">
-      <div className="@6xl:col-span-4 flex flex-col gap-4">
+    <div className="grid gap-4 grid-cols-12 ">
+      <div className="col-span-12 @6xl:col-span-4 flex flex-col gap-4">
         <Card className="p-3">
           <CardContent className="p-0">
             <div className="flex justify-between items-start">
@@ -52,7 +52,7 @@ export const VendorInfoSection = ({ id }: { id: string }) => {
               </div>
               <div className="flex flex-col items-baseline">
                 <div className="font-mono text-sm font-medium text-muted-foreground">Address</div>
-                <div className="">
+                <div className="text-wrap">
                   {vendor.address}
                 </div>
               </div>
@@ -61,7 +61,7 @@ export const VendorInfoSection = ({ id }: { id: string }) => {
         </Card>
       </div>
 
-      <div className="@6xl:col-span-8">
+      <div className="col-span-12 @6xl:col-span-8">
         <Card className="p-3 overflow-clip">
           <CardContent className="p-0">
             <div className="flex justify-between items-start">
